@@ -1,8 +1,11 @@
 <div class="flex h-screen w-full">
+  <div class="absolute top-10 right-10 z-10">
+    <button nz-icon nzType="home" nzTheme="outline" class="cursor-pointer text-3xl text-blue-500" routerLink="/"></button>
+  </div>
   <div class="auth-bg hidden flex-1 items-center justify-center bg-primary bg-[#1f2937] bg-cover lg:flex">
     <div class="max-w-2xl space-y-4 p-8 text-center text-white">
-      <img src="./assets/images/auth-screens.png" alt="dashboard widget" />
-      <h1 class="text-4xl font-bold">"Fast, Efficient and Productive"</h1>
+      <img src="/assets/img/auth-screens.png" alt="dashboard widget" />
+      <h1 class="text-4xl font-bold text-white">"Fast, Efficient and Productive"</h1>
       <p class="text-xs font-light">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
         magna aliqua. Ut enim ad minim veniam, quis
@@ -19,7 +22,6 @@
       <div class="flex items-center justify-center">
         <a class="rounded bg-primary p-2">
         </a>
-        <b class="text-md pl-3 font-bold text-foreground"> Angular Tailwind </b>
       </div>
       <!-- Route -->
       <router-outlet></router-outlet>

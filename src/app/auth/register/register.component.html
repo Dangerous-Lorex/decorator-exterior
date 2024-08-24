@@ -1,0 +1,279 @@
+<form
+  class="my-10 space-y-6"
+  [formGroup]="registerForm"
+  (ngSubmit)="onRegisterSubmit()"
+>
+  <div class="text-center">
+    <h2 class="text-3xl font-semibold text-foreground mb-5">
+      Sign Up <span class="text-primary">!</span>
+    </h2>
+    <p class="text-sm text-muted-foreground">Let's get started.</p>
+  </div>
+
+  <div class="space-y-3 text-left">
+    <div class="grid grid-cols-2 gap-2">
+      <div class="form__group">
+        <div class="relative">
+          <nz-input-group>
+            <input
+              type="text"
+              class="py-2"
+              nz-input
+              placeholder="First Name"
+              formControlName="firstName"
+            />
+          </nz-input-group>
+        </div>
+        <div *ngIf="submitted && f['firstName'].errors" class="is__invalid-error">
+          <div *ngIf="f['firstName'].errors['required']" class="text-red-500">* Required field</div>
+        </div>
+      </div>
+
+      <div class="form__group">
+        <div class="relative">
+          <nz-input-group>
+            <input
+              type="text"
+              class="py-2"
+              nz-input
+              placeholder="Last Name"
+              formControlName="lastName"
+            />
+          </nz-input-group>
+        </div>
+        <div *ngIf="submitted && f['lastName'].errors" class="is__invalid-error">
+          <div *ngIf="f['lastName'].errors['required']" class="text-red-500">* Required field</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__group">
+      <div class="relative">
+        <nz-input-group>
+          <input
+            type="text"
+            class="py-2"
+            nz-input
+            placeholder="Enter your username"
+            formControlName="userName"
+          />
+        </nz-input-group>
+      </div>
+      <div *ngIf="submitted && f['userName'].errors" class="is__invalid-error">
+        <div *ngIf="f['userName'].errors['required']" class="text-red-500">* Required field</div>
+      </div>
+    </div>
+
+    <div class="form__group">
+      <div class="relative">
+        <nz-input-group>
+          <input
+            type="text"
+            class="py-2"
+            nz-input
+            placeholder="Email"
+            formControlName="email"
+          />
+        </nz-input-group>
+      </div>
+      <div *ngIf="submitted && f['email'].errors" class="is__invalid-error">
+        <div *ngIf="f['email'].errors['required']" class="text-red-500">* Required field</div>
+      </div>
+    </div>
+
+    <div class="form__group">
+      <div class="relative">
+        <nz-select
+          nzAllowClear
+          nzPlaceHolder="Gender"
+          class="w-full py-2"
+          formControlName="gender"
+        >
+          <nz-option nzValue="man" nzLabel="Man"></nz-option>
+          <nz-option nzValue="woman" nzLabel="Woman"></nz-option>
+        </nz-select>
+      </div>
+      <div *ngIf="submitted && f['gender'].errors" class="is__invalid-error">
+        <div *ngIf="f['gender'].errors['required']" class="text-red-500">* Required field</div>
+      </div>
+    </div>
+
+    <div class="form__group">
+      <div class="relative">
+        <nz-input-group>
+          <input
+            type="text"
+            class="py-2"
+            nz-input
+            placeholder="Address"
+            formControlName="address"
+          />
+        </nz-input-group>
+      </div>
+      <div *ngIf="submitted && f['address'].errors" class="is__invalid-error">
+        <div *ngIf="f['address'].errors['required']" class="text-red-500">* Required field</div>
+      </div>
+    </div>
+
+    <div class="form__group">
+      <div class="relative">
+        <nz-input-group>
+          <input
+            type="text"
+            class="py-2"
+            nz-input
+            placeholder="Phone number"
+            formControlName="phoneNumber"
+          />
+        </nz-input-group>
+      </div>
+      <div *ngIf="submitted && f['phoneNumber'].errors" class="is__invalid-error">
+        <div *ngIf="f['phoneNumber'].errors['required']" class="text-red-500">* Required field</div>
+      </div>
+    </div>
+
+    <div class="form__group">
+      <div class="relative">
+        <nz-select
+          nzAllowClear
+          nzPlaceHolder="Card Type"
+          class="w-full py-2"
+          formControlName="cardType"
+        >
+          <nz-option nzValue="visa" nzLabel="Visa Card"></nz-option>
+          <nz-option nzValue="Diners" nzLabel="Diners Card"></nz-option>
+        </nz-select>
+      </div>
+      <div *ngIf="submitted && f['cardType'].errors" class="is__invalid-error">
+        <div *ngIf="f['cardType'].errors['required']" class="text-red-500">* Required field</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-4 gap-4">
+      <div class="form__group">
+        <div class="relative">
+          <nz-input-group>
+            <input
+              type="text"
+              class="py-2"
+              nz-input
+              placeholder="0000"
+              formControlName="cardNumber1"
+            />
+          </nz-input-group>
+        </div>
+        <div *ngIf="submitted && f['cardNumber1'].errors" class="is__invalid-error">
+          <div *ngIf="f['cardNumber1'].errors['required']" class="text-red-500">* Required field</div>
+        </div>
+      </div>
+      <div class="form__group">
+        <div class="relative">
+          <nz-input-group>
+            <input
+              type="text"
+              class="py-2"
+              nz-input
+              placeholder="0000"
+              formControlName="cardNumber2"
+            />
+          </nz-input-group>
+        </div>
+        <div *ngIf="submitted && f['cardNumber2'].errors" class="is__invalid-error">
+          <div *ngIf="f['cardNumber2'].errors['required']" class="text-red-500">* Required field</div>
+        </div>
+      </div>
+      <div class="form__group">
+        <div class="relative">
+          <nz-input-group>
+            <input
+              type="text"
+              class="py-2"
+              nz-input
+              placeholder="0000"
+              formControlName="cardNumber3"
+            />
+          </nz-input-group>
+        </div>
+        <div *ngIf="submitted && f['cardNumber3'].errors" class="is__invalid-error">
+          <div *ngIf="f['cardNumber3'].errors['required']" class="text-red-500">* Required field</div>
+        </div>
+      </div>
+      <div class="form__group">
+        <div class="relative">
+          <nz-input-group>
+            <input
+              type="text"
+              class="py-2"
+              nz-input
+              placeholder="0000"
+              formControlName="cardNumber4"
+            />
+          </nz-input-group>
+        </div>
+        <div *ngIf="submitted && f['cardNumber4'].errors" class="is__invalid-error">
+          <div *ngIf="f['cardNumber4'].errors['required']" class="text-red-500">* Required field</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__group">
+      <div class="relative">
+        <nz-input-group [nzSuffix]="passwordSuffix" class="py-2">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            nz-input
+            placeholder="Password"
+            formControlName="password"
+          />
+        </nz-input-group>
+        <ng-template #passwordSuffix>
+          <span
+            nz-icon
+            [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"
+          ></span>
+        </ng-template>
+      </div>
+      <div *ngIf="submitted && f['password'].errors" class="is__invalid-error">
+        <div *ngIf="f['password'].errors['required']" class="text-red-500">* Required field</div>
+      </div>
+    </div>
+
+    <div class="form__group">
+      <div class="relative">
+        <nz-input-group [nzSuffix]="confirmSuffix" class="py-2">
+          <input
+            [type]="confirmPasswordVisible ? 'text' : 'password'"
+            nz-input
+            placeholder="Confirm Password"
+            formControlName="confirmPassword"
+          />
+        </nz-input-group>
+        <ng-template #confirmSuffix>
+          <span
+            nz-icon
+            [nzType]="confirmPasswordVisible ? 'eye-invisible' : 'eye'"
+            (click)="confirmPasswordVisible = !confirmPasswordVisible"
+          ></span>
+        </ng-template>
+      </div>
+      <div *ngIf="submitted && f['confirmPassword'].errors" class="is__invalid-error">
+        <div *ngIf="f['confirmPassword'].errors['required']" class="text-red-500">* Required field</div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <button nz-button nzType="primary" class="h-10" nzBlock type="submit">
+      Sign Up
+    </button>
+  </div>
+
+  <!-- Sign-up -->
+  <div class="flex items-center text-sm text-muted-foreground">
+    Already have an Account?
+    <button nz-button nzType="link" nzPrimary (click)="routeLogin()">
+      Sign In
+    </button>
+  </div>
+</form>
