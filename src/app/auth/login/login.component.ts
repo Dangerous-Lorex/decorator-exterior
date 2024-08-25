@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
             'Login Success. Thank you.',
             'text-green-500'
           );
-          this.router.navigate(['/']);
+          this.router.navigate(['/profile']);
         })
         .catch((err) => {
           this.errorMessage = 'Login failed. Please check your credentials.';

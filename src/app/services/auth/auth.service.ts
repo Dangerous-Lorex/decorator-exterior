@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { jwtDecode } from 'jwt-decode';
+
+interface JwtPayload {
+  userName: string;
+  iat: number;
+  exp: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +42,15 @@ export class AuthService {
       .catch((error) => {
         throw error;
       });
+  }
+
+  getUserData(): any {
+    const token = localStorage.getItem(this.tokenKey);
+    if (token) {
+      const decodedToken = jwtDecode<JwtPayload>(token);
+      return decodedToken;
+    }
+    return null;
   }
 
   logout(): void {

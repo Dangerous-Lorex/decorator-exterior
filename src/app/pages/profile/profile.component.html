@@ -1,0 +1,152 @@
+<div class="w-full flex justify-center bg-[#f1f5f9]">
+  <div class="container p-[20px]">
+    <div class="">
+      <h3 class="text-[24px]">Profile</h3>
+    </div>
+    <div class="grid grid-cols-3 gap-4 w-full mt-[20px]">
+      <div
+        class="col-span-1 flex items-center bg-white rounded-lg bg-background p-8 flex-col w-full"
+      >
+        <div class="w-full flex justify-center">
+          <div
+            class="border-4 rounded-full shadow-cyan-500/50 w-[200px] h-[200px] flex justify-center items-center mt-[20px]"
+          >
+            <img src="/assets/img/auth-screens.png" />
+          </div>
+        </div>
+        <button
+          nz-button
+          class="h-10 mt-7 rounded-full"
+          nzBlock
+        >
+          Upload
+        </button>
+      </div>
+      <div
+        class="col-span-2 flex bg-white rounded-lg bg-background p-8 w-full flex-col items-center"
+      >
+        <h3>Information</h3>
+
+        <form class="my-10 space-y-6 w-full" [formGroup]="profileForm">
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">
+              First Name
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="The input is not valid E-mail!"
+            >
+              <input nz-input formControlName="firstName" id="firstName" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="lastName">
+              Last Name
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="The input is not valid E-mail!"
+            >
+              <input nz-input formControlName="lastName" id="lastName" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userName">
+              Username
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="The input is not valid E-mail!"
+            >
+              <input nz-input formControlName="userName" id="userName" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">
+              Email
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="The input is not valid E-mail!"
+            >
+              <input nz-input formControlName="email" id="email" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="gender">
+              Gender
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="The input is not valid E-mail!"
+            >
+              <input nz-input formControlName="gender" id="gender" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="address">
+              Address
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="The input is not valid E-mail!"
+            >
+              <input nz-input formControlName="address" id="address" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phoneNumber">
+              Phone Number
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="The input is not valid E-mail!"
+            >
+              <input nz-input formControlName="phoneNumber" id="phoneNumber" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="cardType">
+              Card Type
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="The input is not valid E-mail!"
+            >
+              <input nz-input formControlName="cardType" id="cardType" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="cardNumber">
+              Card Number
+            </nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              nzErrorTip="The input is not valid E-mail!"
+            >
+              <input nz-input formControlName="cardNumber" id="cardNumber" />
+            </nz-form-control>
+          </nz-form-item>
+          <div class="w-full flex justify-end">
+            <button
+              nz-button
+              nzType="primary"
+              class="h-10 mt-7 rounded-full w-[200px]"
+            >
+              Update Profile
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
