@@ -14,18 +14,12 @@
             <img src="/assets/img/auth-screens.png" />
           </div>
         </div>
-        <button
-          nz-button
-          class="h-10 mt-7 rounded-full"
-          nzBlock
-        >
-          Upload
-        </button>
+        <button nz-button class="h-10 mt-7 rounded-full" nzBlock>Upload</button>
       </div>
       <div
         class="col-span-2 flex bg-white rounded-lg bg-background p-8 w-full flex-col items-center"
       >
-        <h3>Information</h3>
+        <h3 class="text-xl">Information</h3>
 
         <form class="my-10 space-y-6 w-full" [formGroup]="profileForm">
           <nz-form-item>
@@ -85,7 +79,15 @@
               [nzXs]="24"
               nzErrorTip="The input is not valid E-mail!"
             >
-              <input nz-input formControlName="gender" id="gender" />
+              <nz-select
+                nzAllowClear
+                nzPlaceHolder="Gender"
+                class="w-full py-2"
+                formControlName="gender"
+              >
+                <nz-option nzValue="man" nzLabel="Man"></nz-option>
+                <nz-option nzValue="woman" nzLabel="Woman"></nz-option>
+              </nz-select>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
@@ -101,7 +103,12 @@
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phoneNumber">
+            <nz-form-label
+              [nzSm]="6"
+              [nzXs]="24"
+              nzRequired
+              nzFor="phoneNumber"
+            >
               Phone Number
             </nz-form-label>
             <nz-form-control
@@ -121,7 +128,15 @@
               [nzXs]="24"
               nzErrorTip="The input is not valid E-mail!"
             >
-              <input nz-input formControlName="cardType" id="cardType" />
+              <nz-select
+                nzAllowClear
+                nzPlaceHolder="Card Type"
+                class="w-full py-2"
+                formControlName="cardType"
+              >
+                <nz-option nzValue="visa" nzLabel="Visa Card"></nz-option>
+                <nz-option nzValue="Diners" nzLabel="Diners Card"></nz-option>
+              </nz-select>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>

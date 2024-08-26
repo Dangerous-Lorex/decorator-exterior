@@ -5,7 +5,7 @@
     <div
       class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl"
     >
-      <a href="/" class="flex items-center">
+      <button (click)="moveTo('/')" class="flex items-center">
         <img
           src="https://flowbite.com/docs/images/logo.svg"
           class="mr-3 h-6 sm:h-9"
@@ -13,17 +13,18 @@
         />
         <span
           class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
-          >Imagination</span
         >
-      </a>
+          Imagination
+        </span>
+      </button>
       <div class="flex items-center lg:order-2">
-        <a
-          href="/auth/login"
+        <button
           class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+          (click)="moveTo('/auth/login')"
           *ngIf="!userInfo"
         >
           Log in
-        </a>
+        </button>
         <div>
           <button
             nz-button
@@ -33,7 +34,9 @@
             class="text-white text-xl flex flex-row items-center"
             *ngIf="userInfo"
           >
-            <div class="w-[50px] h-[50px] mr-3 flex justify-center items-center rounded-full bg-white">
+            <div
+              class="w-[50px] h-[50px] mr-3 flex justify-center items-center rounded-full bg-white"
+            >
               <img src="/assets/img/auth-screens.png" width="100%" />
             </div>
             {{ userInfo.userName }}
@@ -85,49 +88,78 @@
       >
         <ul
           class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0"
+          *ngIf="userInfo && userInfo.role == 'admin'"
         >
           <li>
-            <a
-              href="#"
-              class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white"
+            <button
+              (click)="moveTo('/')"
+              class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
               aria-current="page"
-              >Home</a
             >
+              Home
+            </button>
           </li>
           <li>
-            <a
-              href="#"
+            <button
+              (click)="moveTo('/admin/company-list')"
               class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-              >Company</a
             >
+              Company
+            </button>
           </li>
           <li>
-            <a
-              href="#"
+            <button
+              (click)="moveTo('/admin/user-list')"
               class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-              >Marketplace</a
             >
+              User
+            </button>
           </li>
           <li>
-            <a
-              href="#"
+            <button
+              (click)="moveTo('/admin/decorator-list')"
               class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-              >Features</a
             >
+              Decorator
+            </button>
+          </li>
+        </ul>
+        <ul
+          class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0"
+          *ngIf="userInfo && userInfo.role != 'admin'"
+        >
+          <li>
+            <button
+              (click)="moveTo('/')"
+              class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+              aria-current="page"
+            >
+              Home
+            </button>
           </li>
           <li>
-            <a
-              href="#"
+            <button
+              (click)="moveTo('/user/company-list')"
               class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-              >Team</a
             >
+              Company
+            </button>
           </li>
           <li>
-            <a
-              href="#"
+            <button
+              (click)="moveTo('/user/appointment')"
               class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-              >Contact</a
             >
+              Appointment
+            </button>
+          </li>
+          <li>
+            <button
+              (click)="moveTo('/user/decorator-list')"
+              class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+            >
+              Maintenance
+            </button>
           </li>
         </ul>
       </div>

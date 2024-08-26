@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,15 +10,7 @@ export class ProfileService {
 
   constructor(private http: HttpClient) {}
 
-  async getUser(userName: string): Promise<string> {
-    return await this.http
-      .post<any>(this.getUserUrl, {userName: userName})
-      .toPromise()
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        throw error;
-      });
+  getUser(userName: string): Observable<any> {
+    return this.http.post<any>(this.getUserUrl, { userName });
   }
 }

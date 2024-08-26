@@ -32,4 +32,7 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/']);
   }
+  moveTo(link: string) {
+    this.router.navigate([link]);
+  }
 }

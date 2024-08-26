@@ -1,14 +1,22 @@
-<div class="w-full flex justify-center">
+<div class="w-full flex justify-center bg-[#f1f5f9]">
   <div class="container p-10 flex flex-col items-center">
     <div class="w-full flex justify-center">
       <h1 class="text-lg font-bold">Home Owner / Restaurateurs</h1>
     </div>
-    <div class="w-full">
-      <!-- <nz-table #sortTable [nzData]="listOfData" nzTableLayout="fixed">
+    <div class="w-full p-5 border-gray-100 border-2 bg-white mt-3">
+      <nz-table
+        #sortTable
+        [nzData]="userList"
+        nzTableLayout="fixed"
+        nzSize="middle"
+      >
         <thead>
           <tr>
             @for (column of userTableHeader; track column) {
-            <th [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
+            <th
+              [nzSortFn]="column.compare ? column.compare : null"
+              [nzSortPriority]="column.priority ? column.priority : true"
+            >
               {{ column.title }}
             </th>
             }
@@ -17,14 +25,23 @@
         <tbody>
           @for (data of sortTable.data; track data) {
           <tr>
-            <td>{{ data.name }}</td>
-            <td>{{ data.chinese }}</td>
-            <td>{{ data.math }}</td>
-            <td>{{ data.english }}</td>
+            <td>{{ data.firstName + " " + data.lastName }}</td>
+            <td>{{ data.userName }}</td>
+            <td>{{ data.email }}</td>
+            <td>{{ data.gender }}</td>
+            <td>{{ data.address }}</td>
+            <td>{{ data.phoneNumber }}</td>
+            <td>{{ data.cardType }}</td>
+            <td>{{ data.cardNumber }}</td>
+            <td>
+              <button nz-button nzType="link" class="flex items-center">
+                <span nz-icon nzType="eye" nzTheme="outline"></span>Action
+              </button>
+            </td>
           </tr>
           }
         </tbody>
-      </nz-table> -->
+      </nz-table>
     </div>
   </div>
 </div>
