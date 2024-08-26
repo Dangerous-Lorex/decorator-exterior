@@ -21,14 +21,30 @@
           href="/auth/login"
           class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
           *ngIf="!userInfo"
-          >Log in</a
         >
-        <a
-          href="/profile"
-          class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
-          *ngIf="userInfo"
-          >{{ userInfo.userName }}</a
-        >
+          Log in
+        </a>
+        <div>
+          <button
+            nz-button
+            nz-dropdown
+            [nzDropdownMenu]="menu"
+            [nzPlacement]="'bottomRight'"
+            class="text-white text-xl flex flex-row items-center"
+            *ngIf="userInfo"
+          >
+            <div class="w-[50px] h-[50px] mr-3 flex justify-center items-center rounded-full bg-white">
+              <img src="/assets/img/auth-screens.png" width="100%" />
+            </div>
+            {{ userInfo.userName }}
+          </button>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu class="w-[100px]">
+              <li nz-menu-item (click)="linkProfile()">Profile</li>
+              <li nz-menu-item nzDanger (click)="logout()">Logout</li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
         <button
           data-collapse-toggle="mobile-menu-2"
           type="button"

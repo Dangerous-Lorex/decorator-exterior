@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit {
   userInfo: any;
 
   ngOnInit(): void {
-    this.userName = this.authService.getUserData().userName;
+    // this.userName = this.authService.getUserData().userName;
     this.userInfo = this.profileService.getUser(this.userName);
 
     this.profileForm = this._formBuilder.group({

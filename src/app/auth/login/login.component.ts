@@ -88,13 +88,17 @@ export class LoginComponent implements OnInit {
     } else {
       this.authService
         .login(userName, password)
-        .then(() => {
+        .then((role) => {
           this.createAuthNotification(
             'Success',
             'Login Success. Thank you.',
             'text-green-500'
           );
-          this.router.navigate(['/profile']);
+          if (role == 'admin') {
+            this.router.navigate(['/admin/company-list']);
+          } else {
+            this.router.navigate(['/profile']);
+          }
         })
         .catch((err) => {
           this.errorMessage = 'Login failed. Please check your credentials.';
