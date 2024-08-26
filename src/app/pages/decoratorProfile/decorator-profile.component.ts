@@ -14,8 +14,8 @@ import { ProfileService } from '../../services/profile/profile.service';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
+  selector: 'app-decorator-profile',
+  templateUrl: './decorator-profile.component.html',
   standalone: true,
   imports: [
     NzButtonModule,

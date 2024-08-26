@@ -3,6 +3,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { AdminService } from '../../../services/admin/admin.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 interface DataItem {
   firstName: string;
@@ -20,15 +21,36 @@ interface DataItem {
   selector: 'app-view-user',
   templateUrl: './view-user.component.html',
   standalone: true,
-  imports: [NzTableModule, NzButtonModule, NzIconModule],
+  imports: [NzTableModule, NzButtonModule, NzIconModule, NzModalModule],
 })
 export class ViewUserComponent implements OnInit {
-  constructor(private adminService: AdminService) {}
+  confirmModal?: NzModalRef;
+  constructor(
+    private adminService: AdminService,
+    private modal: NzModalService
+  ) {}
 
   userList: any;
   ngOnInit(): void {
     this.adminService.getUserList().subscribe((userList) => {
       this.userList = userList;
+    });
+  }
+
+  showConfirm(userName: string, isDisabled: boolean): void {
+    this.confirmModal = this.modal.confirm({
+      nzTitle: `Do you Want to change ${userName}'s Permission?`,
+      nzContent: '',
+      nzOnOk: () => {
+        this.adminService
+          .permissionUser({ userName, isDisabled })
+          .subscribe((value) => {
+            
+          });
+        new Promise((resolve, reject) => {
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+        }).catch(() => console.log('Oops errors!'));
+      },
     });
   }
 
@@ -76,6 +98,10 @@ export class ViewUserComponent implements OnInit {
       title: 'Card Number',
       compare: (a: DataItem, b: DataItem) =>
         a.cardNumber.localeCompare(b.cardNumber),
+      priority: false,
+    },
+    {
+      title: 'Status',
       priority: false,
     },
     {

@@ -33,9 +33,15 @@
             <td>{{ data.phoneNumber }}</td>
             <td>{{ data.cardType }}</td>
             <td>{{ data.cardNumber }}</td>
+            <td>{{ data.isDisabled ? "Disabled" : "Enabled" }}</td>
             <td>
-              <button nz-button nzType="link" class="flex items-center">
-                <span nz-icon nzType="eye" nzTheme="outline"></span>Action
+              <button
+                nz-button
+                nzType="primary"
+                class="flex items-center"
+                (click)="showConfirm(data.userName, data.isDisabled)"
+              >
+                Action
               </button>
             </td>
           </tr>
