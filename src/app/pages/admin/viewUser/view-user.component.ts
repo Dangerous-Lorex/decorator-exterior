@@ -45,7 +45,9 @@ export class ViewUserComponent implements OnInit {
         this.adminService
           .permissionUser({ userName, isDisabled })
           .subscribe((value) => {
-            
+            this.adminService.getUserList().subscribe((userList) => {
+              this.userList = userList;
+            });
           });
         new Promise((resolve, reject) => {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);

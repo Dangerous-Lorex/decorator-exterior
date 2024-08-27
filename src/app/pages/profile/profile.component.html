@@ -14,14 +14,28 @@
             <img src="/assets/img/auth-screens.png" />
           </div>
         </div>
-        <button nz-button class="h-10 mt-7 rounded-full" nzBlock>Upload</button>
+        <nz-upload
+          [nzAction]="uploadUrl"
+          [nzHeaders]="{ authorization: 'authorization-text' }"
+          (nzChange)="handleChange($event)"
+          class="h-10 rounded-full mt-7"
+        >
+          <button nz-button class="h-10 rounded-full" nzBlock>
+            <span nz-icon nzType="upload"></span>
+            Click to Upload
+          </button>
+        </nz-upload>
       </div>
       <div
         class="col-span-2 flex bg-white rounded-lg bg-background p-8 w-full flex-col items-center"
       >
         <h3 class="text-xl">Information</h3>
 
-        <form class="my-10 space-y-6 w-full" [formGroup]="profileForm">
+        <form
+          class="my-10 space-y-6 w-full"
+          [formGroup]="profileForm"
+          (submit)="onSubmit()"
+        >
           <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">
               First Name
@@ -155,6 +169,7 @@
             <button
               nz-button
               nzType="primary"
+              type="submit"
               class="h-10 mt-7 rounded-full w-[200px]"
             >
               Update Profile

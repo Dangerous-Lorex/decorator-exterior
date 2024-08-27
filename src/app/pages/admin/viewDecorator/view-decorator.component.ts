@@ -167,6 +167,10 @@ export class ViewDecoratorComponent implements OnInit {
       };
       if (requestType == 'register') {
         this.adminService.registerDecorator(userInfo).subscribe((value) => {
+          let listRes = this.adminService.getDecoratorList();
+          listRes.subscribe((lists) => {
+            this.decoratorList = lists;
+          });
           this.createAuthNotification(
             'Success',
             value.message,
@@ -184,6 +188,10 @@ export class ViewDecoratorComponent implements OnInit {
             phoneNumber,
           })
           .subscribe((value) => {
+            let listRes = this.adminService.getDecoratorList();
+            listRes.subscribe((lists) => {
+              this.decoratorList = lists;
+            });
             this.createAuthNotification(
               'Success',
               value.message,
@@ -209,11 +217,12 @@ export class ViewDecoratorComponent implements OnInit {
         isDisabled: this.userData.isDisabled,
       })
       .subscribe((res) => {
-        this.createAuthNotification(
-          'success',
-          res.message,
-          'text-green-500'
-        );
+        let listRes = this.adminService.getDecoratorList();
+        listRes.subscribe((lists) => {
+          this.decoratorList = lists;
+        });
+        this.isVisible = false;
+        this.createAuthNotification('success', res.message, 'text-green-500');
       });
   }
 

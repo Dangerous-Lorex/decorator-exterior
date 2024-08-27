@@ -12,6 +12,10 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { AuthService } from '../../services/auth/auth.service';
 import { ProfileService } from '../../services/profile/profile.service';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-profile',
@@ -24,22 +28,24 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     FormsModule,
     ReactiveFormsModule,
     NzSelectModule,
+    NzUploadModule
   ],
 })
 export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
-
+  uploadUrl = 'http://localhost:5000/upload'; // URL of your Express server
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private notification: NzNotificationService,
+    private msg: NzMessageService,
   ) {}
 
   userName: string = '';
   userInfo: any;
 
   ngOnInit(): void {
-    // this.userName = this.authService.getUserData().userName;
     this.authService._userData.subscribe((userData) => {
       this.userName = userData.userName;
     });
@@ -58,7 +64,6 @@ export class ProfileComponent implements OnInit {
             cardType: this.userInfo.cardType,
             cardNumber: this.userInfo.cardNumber,
           });
-          console.log(this.userInfo.firstName);
         },
         (error) => {
           console.log(error);
@@ -77,5 +82,54 @@ export class ProfileComponent implements OnInit {
       cardType: ['', Validators.required],
       cardNumber: ['', Validators.required],
     });
+  }
+
+  createNotification(title: string, content: string): void {
+    this.notification.blank(title, content);
+  }
+
+  onSubmit() {
+    const {
+      firstName,
+      lastName,
+      email,
+      gender,
+      address,
+      phoneNumber,
+      cardType,
+      cardNumber,
+    } = this.profileForm.value;
+    const userName = this.userName;
+    const userInfo = {
+      firstName,
+      lastName,
+      userName,
+      email,
+      gender,
+      address,
+      phoneNumber,
+      cardType,
+      cardNumber,
+    };
+
+    this.profileService.updateUser(userInfo).then((data) => {
+      if (data.status == 200) {
+        this.createNotification(
+          'Update Success',
+          'Your profile has updated successfully'
+        );
+      }
+    });
+  }
+  
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      this.msg.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
   }
 }

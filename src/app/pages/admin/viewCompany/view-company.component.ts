@@ -4,6 +4,7 @@ import { AdminService } from '../../../services/admin/admin.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { PlusOutline } from '@ant-design/icons-angular/icons';
+import { MinusOutline } from '@ant-design/icons-angular/icons';
 import { NzIconService } from 'ng-zorro-antd/icon';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -35,10 +36,11 @@ export class ViewCompanyComponent implements OnInit {
     private adminService: AdminService,
     private iconService: NzIconService
   ) {
-    this.iconService.addIcon(PlusOutline);
+    this.iconService.addIcon(PlusOutline, MinusOutline);
   }
   isVisible = false;
   companyList: any;
+  registerCompanyInfo: any;
   ngOnInit(): void {
     this.adminService.getCompaniesList().subscribe((companyList) => {
       this.companyList = companyList;
@@ -55,12 +57,6 @@ export class ViewCompanyComponent implements OnInit {
       title: 'Location',
       compare: (a: DataItem, b: DataItem) =>
         a.location.localeCompare(b.location),
-      priority: false,
-    },
-    {
-      title: 'Location Map',
-      compare: (a: DataItem, b: DataItem) =>
-        a.locationMap.localeCompare(b.locationMap),
       priority: false,
     },
     {
