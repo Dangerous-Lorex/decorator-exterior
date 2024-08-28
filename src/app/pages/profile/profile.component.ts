@@ -6,6 +6,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { NgIf } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -28,18 +29,20 @@ import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
     FormsModule,
     ReactiveFormsModule,
     NzSelectModule,
-    NzUploadModule
+    NzUploadModule,
+    NgIf
   ],
 })
 export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
-  uploadUrl = 'http://localhost:5000/upload'; // URL of your Express server
+  uploadUrl = 'http://localhost:5000/upload';
+  avatarLink = '';
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
     private _formBuilder: FormBuilder,
     private notification: NzNotificationService,
-    private msg: NzMessageService,
+    private msg: NzMessageService
   ) {}
 
   userName: string = '';
@@ -47,12 +50,16 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService._userData.subscribe((userData) => {
-      this.userName = userData.userName;
+      if (userData) {
+        this.userName = userData.userName;
+      }
     });
     if (this.userName) {
       this.profileService.getUser(this.userName).subscribe(
         (data) => {
           this.userInfo = data;
+          this.avatarLink = 'http://localhost:5000' + this.userInfo.avatar;
+          console.log(this.userInfo.role)
           this.profileForm.patchValue({
             firstName: this.userInfo.firstName,
             lastName: this.userInfo.lastName,
@@ -98,6 +105,7 @@ export class ProfileComponent implements OnInit {
       phoneNumber,
       cardType,
       cardNumber,
+      avatar,
     } = this.profileForm.value;
     const userName = this.userName;
     const userInfo = {
@@ -121,12 +129,21 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-  
+
   handleChange(info: NzUploadChangeParam): void {
     if (info.file.status !== 'uploading') {
       console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
+      this.profileService.getUser(this.userName).subscribe(
+        (data) => {
+          this.userInfo = data;
+          this.avatarLink = 'http://localhost:5000' + this.userInfo.avatar;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
       this.msg.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === 'error') {
       this.msg.error(`${info.file.name} file upload failed.`);

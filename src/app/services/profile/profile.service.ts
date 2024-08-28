@@ -16,7 +16,6 @@ export class ProfileService {
   }
 
   async updateUser(userInfo: any):Promise<any> {
-    let response: any;
     return await this.http.put<any>(this.updateUserUrl, userInfo).toPromise()
   }
 }

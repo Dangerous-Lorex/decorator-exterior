@@ -101,10 +101,9 @@ export class LoginComponent implements OnInit {
           }
         })
         .catch((err) => {
-          this.errorMessage = 'Login failed. Please check your credentials.';
           this.createAuthNotification(
             'Error',
-            this.errorMessage,
+            err.error.message,
             'text-red-500'
           );
         });

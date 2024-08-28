@@ -36,8 +36,12 @@
           >
             <div
               class="w-[50px] h-[50px] mr-3 flex justify-center items-center rounded-full bg-white"
+              *ngIf="userInfo ? userInfo.role != 'admin': false"
             >
-              <img src="/assets/img/auth-screens.png" width="100%" />
+              <img
+                [src]="avatarUrl"
+                class="w-full h-full object-cover rounded-full"
+              />
             </div>
             {{ userInfo.userName }}
           </button>

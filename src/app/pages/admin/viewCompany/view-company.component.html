@@ -58,54 +58,94 @@
     <ng-container *nzModalContent>
       <h1 class="text-sm"><span class="text-red-500">*</span>Company Name</h1>
       <nz-input-group class="py-2">
-        <input
-          type="text"
-          nz-input
-          placeholder="Company Name"
-          formControlName="name"
-        />
+        <input type="text" nz-input placeholder="Company Name" (change)="onChange($event, 'name')" />
       </nz-input-group>
       <h1 class="text-sm"><span class="text-red-500">*</span>Location</h1>
       <nz-input-group class="py-2">
-        <input
-          type="text"
-          nz-input
-          placeholder="Location"
-          formControlName="location"
-        />
+        <input type="text" nz-input placeholder="Location" (change)="onChange($event, 'location')" />
       </nz-input-group>
       <div class="grid grid-cols-2 gap-2 items-end">
         <h1 class="text-sm"><span class="text-red-500">*</span>Service List</h1>
         <div class="w-full text-end">
-          <button nz-button nzType="primary" nzShape="circle" nzSize="small">
+          <button
+            nz-button
+            nzType="primary"
+            nzShape="circle"
+            nzSize="small"
+            (click)="addService()"
+          >
             <span nz-icon nzType="plus" nzTheme="outline"></span>
           </button>
         </div>
       </div>
-      <div class="grid grid-cols-3 gap-4">
+      <div
+        class="grid grid-cols-3 gap-4"
+        *ngFor="let data of serviceList; let i = index"
+      >
         <nz-input-group class="py-2">
           <input
             type="text"
             nz-input
             placeholder="Service Type"
-            formControlName="userName"
+            [defaultValue]="data.type"
+            (change)="onServiceChange(i, $event, 'type')"
           />
         </nz-input-group>
         <nz-input-group class="py-2">
           <input
-            type="text"
+            type="number"
             nz-input
             placeholder="Price"
-            formControlName="userName"
+            [defaultValue]="data.price"
+            (change)="onServiceChange(i, $event, 'price')"
           />
         </nz-input-group>
         <div class="w-full text-end h-full flex items-center justify-end">
-          <button nz-button nzType="primary" nzDanger nzShape="circle" nzSize="small">
+          <button
+            nz-button
+            nzType="primary"
+            nzDanger
+            nzShape="circle"
+            nzSize="small"
+            (click)="deleteService(i)"
+          >
             <span nz-icon nzType="minus" nzTheme="outline"></span>
           </button>
         </div>
       </div>
-      <h1 class="text-sm"><span class="text-red-500">*</span>Recruiters</h1>
+      <!-- <div class="grid grid-cols-2 gap-2 items-end">
+        <h1 class="text-sm">
+          <span class="text-red-500">*</span>Holiday Terms
+        </h1>
+        <div class="w-full text-end">
+          <button
+            nz-button
+            nzType="primary"
+            nzShape="circle"
+            nzSize="small"
+            (click)="addService()"
+          >
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <nz-range-picker
+          (change)="onChange($event)"
+        ></nz-range-picker>
+        <div class="w-full text-end h-full flex items-center justify-end">
+          <button
+            nz-button
+            nzType="primary"
+            nzDanger
+            nzShape="circle"
+            nzSize="small"
+          >
+            <span nz-icon nzType="minus" nzTheme="outline"></span>
+          </button>
+        </div>
+      </div> -->
+      <!-- <h1 class="text-sm"><span class="text-red-500">*</span>Recruiters</h1>
       <nz-input-group class="py-2">
         <input
           type="text"
@@ -122,8 +162,8 @@
           placeholder="Enter your username"
           formControlName="userName"
         />
-      </nz-input-group>
-      <h1 class="text-sm"><span class="text-red-500">*</span>Holiday Terms</h1>
+      </nz-input-group> -->
+      <!-- <h1 class="text-sm"><span class="text-red-500">*</span>Holiday Terms</h1>
       <nz-input-group class="py-2">
         <input
           type="text"
@@ -131,7 +171,7 @@
           placeholder="Enter your username"
           formControlName="userName"
         />
-      </nz-input-group>
+      </nz-input-group> -->
     </ng-container>
   </nz-modal>
 </div>

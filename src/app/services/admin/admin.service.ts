@@ -16,6 +16,7 @@ export class AdminService {
   private updateDecoratorUrl = 'http://localhost:5000/decorator/update-decorator'
   private permissionDecoratorUrl = 'http://localhost:5000/admin/decorator-permission'
   private permissionUserUrl = 'http://localhost:5000/admin/user-permission'
+  private registerCompanyUrl = 'http://localhost:5000/admin/register-company'
 
   constructor(private http: HttpClient) {}
 
@@ -59,5 +60,9 @@ export class AdminService {
     const response = this.http.post<any>(this.permissionUserUrl, userInfo)
     this.getDecoratorList()
     return response
+  }
+
+  async registerCompany(companyInfo: any):Promise<any> {
+    return await this.http.post<any>(this.registerCompanyUrl, companyInfo).toPromise()
   }
 }

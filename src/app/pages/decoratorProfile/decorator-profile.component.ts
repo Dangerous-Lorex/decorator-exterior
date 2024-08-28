@@ -6,12 +6,17 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { NgIf } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { AuthService } from '../../services/auth/auth.service';
 import { ProfileService } from '../../services/profile/profile.service';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-decorator-profile',
@@ -24,29 +29,37 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     FormsModule,
     ReactiveFormsModule,
     NzSelectModule,
+    NzUploadModule,
+    NgIf,
   ],
 })
-export class ProfileComponent implements OnInit {
+export class DecoratorProfileComponent implements OnInit {
   profileForm!: FormGroup;
-
+  uploadUrl = 'http://localhost:5000/upload';
+  avatarLink = '';
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private notification: NzNotificationService,
+    private msg: NzMessageService
   ) {}
 
   userName: string = '';
   userInfo: any;
 
   ngOnInit(): void {
-    // this.userName = this.authService.getUserData().userName;
     this.authService._userData.subscribe((userData) => {
-      this.userName = userData.userName;
+      if (userData) {
+        this.userName = userData.userName;
+      }
     });
     if (this.userName) {
       this.profileService.getUser(this.userName).subscribe(
         (data) => {
           this.userInfo = data;
+          this.avatarLink = 'http://localhost:5000' + this.userInfo.avatar;
+          console.log(this.userInfo.role);
           this.profileForm.patchValue({
             firstName: this.userInfo.firstName,
             lastName: this.userInfo.lastName,
@@ -58,7 +71,6 @@ export class ProfileComponent implements OnInit {
             cardType: this.userInfo.cardType,
             cardNumber: this.userInfo.cardNumber,
           });
-          console.log(this.userInfo.firstName);
         },
         (error) => {
           console.log(error);
@@ -77,5 +89,64 @@ export class ProfileComponent implements OnInit {
       cardType: ['', Validators.required],
       cardNumber: ['', Validators.required],
     });
+  }
+
+  createNotification(title: string, content: string): void {
+    this.notification.blank(title, content);
+  }
+
+  onSubmit() {
+    const {
+      firstName,
+      lastName,
+      email,
+      gender,
+      address,
+      phoneNumber,
+      cardType,
+      cardNumber,
+      avatar,
+    } = this.profileForm.value;
+    const userName = this.userName;
+    const userInfo = {
+      firstName,
+      lastName,
+      userName,
+      email,
+      gender,
+      address,
+      phoneNumber,
+      cardType,
+      cardNumber,
+    };
+
+    this.profileService.updateUser(userInfo).then((data) => {
+      if (data.status == 200) {
+        this.createNotification(
+          'Update Success',
+          'Your profile has updated successfully'
+        );
+      }
+    });
+  }
+
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      this.profileService.getUser(this.userName).subscribe(
+        (data) => {
+          this.userInfo = data;
+          this.avatarLink = 'http://localhost:5000' + this.userInfo.avatar;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      this.msg.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
   }
 }
