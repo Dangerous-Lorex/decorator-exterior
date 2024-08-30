@@ -8,7 +8,7 @@
         nz-button
         nzType="primary"
         class="flex items-center"
-        (click)="addCompanyModal()"
+        (click)="addCompanyModal(-1)"
       >
         <span nz-icon nzType="plus" nzTheme="outline"></span>Create Company
       </button>
@@ -32,17 +32,20 @@
           </tr>
         </thead>
         <tbody>
-          @for (data of sortTable.data; track data) {
-          <tr>
+          <tr *ngFor="let data of sortTable.data; let i = index">
             <td>{{ data.name }}</td>
             <td>{{ data.location }}</td>
             <td class="flex flex-row items-center">
-              <button nz-button nzType="link" class="flex items-center">
+              <button
+                nz-button
+                nzType="link"
+                class="flex items-center"
+                (click)="addCompanyModal(i)"
+              >
                 <span nz-icon nzType="eye" nzTheme="outline"></span>Action
               </button>
             </td>
           </tr>
-          }
         </tbody>
       </nz-table>
     </div>
@@ -58,11 +61,23 @@
     <ng-container *nzModalContent>
       <h1 class="text-sm"><span class="text-red-500">*</span>Company Name</h1>
       <nz-input-group class="py-2">
-        <input type="text" nz-input placeholder="Company Name" (change)="onChange($event, 'name')" />
+        <input
+          type="text"
+          nz-input
+          placeholder="Company Name"
+          (change)="onChange($event, 'name')"
+          [defaultValue]="companyInfo.name"
+        />
       </nz-input-group>
       <h1 class="text-sm"><span class="text-red-500">*</span>Location</h1>
       <nz-input-group class="py-2">
-        <input type="text" nz-input placeholder="Location" (change)="onChange($event, 'location')" />
+        <input
+          type="text"
+          nz-input
+          placeholder="Location"
+          (change)="onChange($event, 'location')"
+          [defaultValue]="companyInfo.location"
+        />
       </nz-input-group>
       <div class="grid grid-cols-2 gap-2 items-end">
         <h1 class="text-sm"><span class="text-red-500">*</span>Service List</h1>

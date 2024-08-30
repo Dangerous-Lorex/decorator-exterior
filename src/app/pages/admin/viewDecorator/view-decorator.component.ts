@@ -16,6 +16,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { AdminService } from '../../../services/admin/admin.service';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NgIf } from '@angular/common';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 interface DataItem {
   firstName: string;
@@ -24,6 +25,7 @@ interface DataItem {
   email: string;
   address: string;
   phoneNumber: string;
+  company: string;
   isDisabled: boolean;
 }
 
@@ -41,6 +43,7 @@ interface DataItem {
     ReactiveFormsModule,
     NzTableModule,
     NgIf,
+    NzSelectModule,
   ],
 })
 export class ViewDecoratorComponent implements OnInit {
@@ -50,6 +53,12 @@ export class ViewDecoratorComponent implements OnInit {
 
   decoratorList: any;
   userData: any = null;
+  companyList: {
+    name: string;
+    location: string;
+    serviceList: [{ type: string; price: number }];
+  }[] = [];
+  isLoading = false;
   constructor(
     private iconService: NzIconService,
     private readonly _formBuilder: FormBuilder,
@@ -69,12 +78,18 @@ export class ViewDecoratorComponent implements OnInit {
       phoneNumber: ['', [Validators.required]],
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
+      company: ['', [Validators.required]],
     });
   }
 
   ngOnInit(): void {
     this.adminService.getDecoratorList().subscribe((list) => {
       this.decoratorList = list;
+    });
+    this.adminService.getCompaniesList().subscribe((list) => {
+      this.isLoading = false;
+      this.companyList = list;
+      this.isLoading = true;
     });
   }
 
@@ -94,6 +109,7 @@ export class ViewDecoratorComponent implements OnInit {
             phoneNumber: this.userData.phoneNumber,
             password: '',
             confirmPassword: '',
+            company: this.userData.company,
           });
           this.registerForm.get('password')?.disable();
           this.registerForm.get('confirmPassword')?.disable();
@@ -109,6 +125,7 @@ export class ViewDecoratorComponent implements OnInit {
         phoneNumber: '',
         password: '',
         confirmPassword: '',
+        company: '',
       });
     }
 
@@ -154,8 +171,17 @@ export class ViewDecoratorComponent implements OnInit {
       address,
       phoneNumber,
       password,
+      company,
     } = this.registerForm.value;
-    if (firstName && lastName && userName && email && address && phoneNumber) {
+    if (
+      firstName &&
+      lastName &&
+      userName &&
+      email &&
+      address &&
+      phoneNumber &&
+      company
+    ) {
       const userInfo = {
         firstName,
         lastName,
@@ -164,6 +190,7 @@ export class ViewDecoratorComponent implements OnInit {
         address,
         phoneNumber,
         password,
+        company,
       };
       if (requestType == 'register') {
         this.adminService.registerDecorator(userInfo).subscribe((value) => {
@@ -186,6 +213,7 @@ export class ViewDecoratorComponent implements OnInit {
             email,
             address,
             phoneNumber,
+            company,
           })
           .subscribe((value) => {
             let listRes = this.adminService.getDecoratorList();
@@ -253,6 +281,11 @@ export class ViewDecoratorComponent implements OnInit {
       title: 'Phone Number',
       compare: (a: DataItem, b: DataItem) =>
         a.phoneNumber.localeCompare(b.phoneNumber),
+      priority: false,
+    },
+    {
+      title: 'Company',
+      compare: (a: DataItem, b: DataItem) => a.company.localeCompare(b.company),
       priority: false,
     },
     {

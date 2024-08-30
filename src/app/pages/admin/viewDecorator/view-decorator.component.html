@@ -39,6 +39,7 @@
             <td>{{ data.email }}</td>
             <td>{{ data.address }}</td>
             <td>{{ data.phoneNumber }}</td>
+            <td>{{ data.company }}</td>
             <td>
               {{ data.isDisabled == false ? "Enabled" : "Disabled" }}
             </td>
@@ -107,6 +108,18 @@
         <nz-form-control class="mt-1 mb-5">
           <input nz-input formControlName="phoneNumber" id="phoneNumber" />
         </nz-form-control>
+
+        <h1 class="text-sm">
+          <span class="text-red-500">*</span>Current Company
+        </h1>
+        <nz-select nzAllowClear nzPlaceHolder="Company" formControlName="company" class="w-full py-2">
+          @for (company of companyList; track company) {
+          <nz-option
+            [nzValue]="company.name"
+            [nzLabel]="company.name"
+          ></nz-option>
+          }
+        </nz-select>
 
         <h1 class="text-sm"><span class="text-red-500">*</span>Password</h1>
         <nz-form-control class="mt-1 mb-5">

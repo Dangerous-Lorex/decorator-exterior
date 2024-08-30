@@ -84,28 +84,45 @@ export class ViewCompanyComponent implements OnInit {
     },
   ];
 
-  addCompanyModal(): void {
+  addCompanyModal(companyIndex: number): void {
     this.isVisible = true;
+    if (companyIndex == -1) {
+      this.companyInfo = {
+        name: '',
+        location: '',
+        serviceList: [],
+      };
+      this.serviceList = [
+        {
+          type: '',
+          price: 0,
+        },
+      ];
+    } else {
+      this.companyList?.map((company: any, index: number) => {
+        if (companyIndex == index) {
+          this.companyInfo = company;
+          this.serviceList = company.serviceList;
+        }
+      });
+    }
   }
 
   createNotification(title: string, content: string): void {
     this.notification.blank(title, content);
   }
-  
+
   companyModalConfirm(): void {
     this.isVisible = false;
-    this.companyInfo.serviceList = this.serviceList
+    this.companyInfo.serviceList = this.serviceList;
     this.adminService.registerCompany(this.companyInfo).then((data) => {
-      if(data.status == 200) {
-        this.createNotification(
-          'Register Success',
-          data.message
-        );
+      if (data.status == 200) {
+        this.createNotification('Register Success', data.message);
         this.adminService.getCompaniesList().subscribe((companyList) => {
           this.companyList = companyList;
         });
       }
-    })
+    });
   }
 
   addService(): void {
@@ -137,5 +154,4 @@ export class ViewCompanyComponent implements OnInit {
       }
     }
   }
-
 }

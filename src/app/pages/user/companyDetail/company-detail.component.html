@@ -1,0 +1,302 @@
+<div class="w-full flex justify-center min-h-[78%] bg-[#f1f5f9]">
+  <div class="container flex items-center flex-col">
+    <h1 class="text-2xl text-center mt-10 mb-5">Detail Page</h1>
+    <div
+      class="w-[80%] bg-white rounded-lg bg-background p-10 grid grid-cols-2 gap-4"
+    >
+      <div>
+        <div class="grid grid-cols-2 gap-4">
+          <p class="text-xl">Company Name:</p>
+          <p class="text-xl">{{ companyInfo ? companyInfo.name : "" }}</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-3">
+          <p class="text-xl">Location:</p>
+          <p class="text-xl">{{ companyInfo ? companyInfo.location : "" }}</p>
+        </div>
+      </div>
+      <div>
+        <p class="text-xl mb-2">Services:</p>
+        <div
+          class="grid grid-cols-2 gap-4 ml-3"
+          *ngFor="let service of companyInfo?.serviceList; let i = index"
+        >
+          <p class="text-lg">{{ service.type }}</p>
+          <p class="text-lg">{{ service.price }}</p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="w-[80%] bg-white rounded-lg bg-background p-10 flex flex-col my-5"
+    >
+      <h1 class="text-2xl text-center mb-5">Make Appointment</h1>
+      <nz-tabset nzType="card">
+        <nz-tab nzTitle="Home Owner">
+          <form nz-form [formGroup]="homeForm" (ngSubmit)="submitHome()">
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="6"
+                [nzXs]="24"
+                nzRequired
+                nzFor="arriveDate"
+              >
+                Work Day
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Date"
+              >
+                <nz-date-picker
+                  class="w-full"
+                  formControlName="arriveDate"
+                  id="arriveDate"
+                ></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="areaSize"
+                >Area Size</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Area size"
+              >
+                <input nz-input formControlName="areaSize" id="areaSize" />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="6"
+                [nzXs]="24"
+                nzRequired
+                nzFor="swimmingArea"
+                >Swimming Pool Area</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Fountain Area"
+              >
+                <input
+                  nz-input
+                  formControlName="swimmingArea"
+                  id="swimmingArea"
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="greenArea"
+                >Greenery Area</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Greenery Area"
+              >
+                <input nz-input formControlName="greenArea" id="greenArea" />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="6"
+                [nzXs]="24"
+                nzRequired
+                nzFor="loungerArea"
+                >Lounger Area</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Lounger Area"
+              >
+                <input
+                  nz-input
+                  formControlName="loungerArea"
+                  id="loungerArea"
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="tableArea"
+                >Table Area</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Table Area"
+              >
+                <input nz-input formControlName="tableArea" id="tableArea" />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="tableArea"
+                >More</nz-form-label
+              >
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <textarea
+                  formControlName="further"
+                  nz-input
+                  rows="2"
+                  placeholder="write any thing"
+                ></textarea>
+              </nz-form-control>
+            </nz-form-item>
+
+            <button
+              nz-button
+              nzType="primary"
+              class="flex items-center float-right"
+              type="submit"
+            >
+              Confirm as Home Owner
+            </button>
+          </form>
+        </nz-tab>
+        <nz-tab nzTitle="Restaurant Owner">
+          <form
+            nz-form
+            [formGroup]="restaurantForm"
+            (ngSubmit)="submitRestaurant()"
+          >
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="6"
+                [nzXs]="24"
+                nzRequired
+                nzFor="arriveDate"
+              >
+                Work Day
+              </nz-form-label>
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Date"
+              >
+                <nz-date-picker
+                  class="w-full"
+                  formControlName="arriveDate"
+                  id="arriveDate"
+                ></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="areaSize"
+                >Area Size</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Area Size"
+              >
+                <input nz-input formControlName="areaSize" id="areaSize" />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="6"
+                [nzXs]="24"
+                nzRequired
+                nzFor="fountainArea"
+                >Fountain Area</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Fountain Area"
+              >
+                <input
+                  nz-input
+                  formControlName="fountainArea"
+                  id="fountainArea"
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="greenArea"
+                >Greenery Area</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Table Area"
+              >
+                <input nz-input formControlName="greenArea" id="greenArea" />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="6"
+                [nzXs]="24"
+                nzRequired
+                nzFor="chairCount"
+                >Chair Count</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Chair Count"
+              >
+                <input
+                  nz-input
+                  formControlName="chairCount"
+                  id="chairCount"
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label
+                [nzSm]="6"
+                [nzXs]="24"
+                nzRequired
+                nzFor="tableCount"
+                >Table Count</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="The input is not valid Table Area"
+              >
+                <input nz-input formControlName="tableCount" id="tableCount" />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="tableArea"
+                >More</nz-form-label
+              >
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <textarea
+                  formControlName="further"
+                  nz-input
+                  rows="2"
+                  placeholder="write any thing"
+                ></textarea>
+              </nz-form-control>
+            </nz-form-item>
+
+            <button
+              nz-button
+              nzType="primary"
+              class="flex items-center float-right"
+              type="submit"
+            >
+              Confirm as Restauranteur
+            </button>
+          </form>
+        </nz-tab>
+      </nz-tabset>
+    </div>
+  </div>
+</div>

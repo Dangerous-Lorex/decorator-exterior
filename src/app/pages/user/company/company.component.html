@@ -1,0 +1,27 @@
+<div class="flex w-full justify-center">
+  <div class="container">
+    <h1 class="text-center mt-10 text-2xl">Company</h1>
+    <div class="w-full mt-5 p-5">
+      <nz-table #basicTable [nzData]="companyList" nzSize="middle">
+        <thead>
+          <tr>
+            <th *ngFor="let column of companyTableHeader">
+              {{ column.title }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data; let i = index">
+            <td>{{ data.name }}</td>
+            <td>{{ data.location }}</td>
+            <td>
+              <button nz-button nzType="link" class="flex items-center" (click)="moveTo(data._id)">
+                <span nz-icon nzType="eye" nzTheme="outline"></span>View
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>
