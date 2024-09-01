@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './landing/landing.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DecoratorProfileComponent } from './decoratorProfile/decorator-profile.component';
-import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {
@@ -23,6 +22,10 @@ const routes: Routes = [
   {
     path: "user",
     loadChildren: () => import('./user/user.module').then((m) => m.UserModule)
+  },
+  {
+    path: "decorator",
+    loadChildren: () => import('./decorator/decorator.module').then((m) => m.DecoratorModule)
   }
 ];
 

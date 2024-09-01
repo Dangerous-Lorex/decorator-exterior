@@ -168,7 +168,7 @@
         nzDanger
         nzType="primary"
         (click)="changePermission()"
-        *ngIf="userData != null && userData.isDisabled == true"
+        *ngIf="userData != null && userData.isDisabled == false"
       >
         Disable
       </button>
@@ -176,7 +176,7 @@
         nz-button
         nzType="primary"
         (click)="changePermission()"
-        *ngIf="userData != null && userData.isDisabled == false"
+        *ngIf="userData != null && userData.isDisabled == true"
       >
         Enable
       </button>

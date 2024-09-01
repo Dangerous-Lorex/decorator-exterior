@@ -59,7 +59,6 @@ export class ProfileComponent implements OnInit {
         (data) => {
           this.userInfo = data;
           this.avatarLink = 'http://localhost:5000' + this.userInfo.avatar;
-          console.log(this.userInfo.role)
           this.profileForm.patchValue({
             firstName: this.userInfo.firstName,
             lastName: this.userInfo.lastName,
