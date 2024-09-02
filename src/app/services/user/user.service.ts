@@ -28,7 +28,7 @@ export class UserService {
       .toPromise();
   }
 
-  async getAppointments(userId: string): Promise<any> {
+  async getAppointments(userId: string | null): Promise<any> {
     return await this.http
       .post<any>(this.getAppointmentsUrl, {userId: userId})
       .toPromise();

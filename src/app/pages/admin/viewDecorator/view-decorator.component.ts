@@ -54,6 +54,7 @@ export class ViewDecoratorComponent implements OnInit {
   decoratorList: any;
   userData: any = null;
   companyList: {
+    _id: string,
     name: string;
     location: string;
     serviceList: [{ type: string; price: number }];

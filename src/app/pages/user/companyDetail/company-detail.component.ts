@@ -12,6 +12,7 @@ import { UserService } from '../../../services/user/user.service';
 import { AuthService } from '../../../services/auth/auth.service';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 import {
   AbstractControl,
@@ -38,6 +39,7 @@ import {
     FormsModule,
     NzDatePickerModule,
     NzNotificationModule,
+    NzSelectModule,
   ],
 })
 export class UserCompanyDetailComponent implements OnInit {
@@ -47,7 +49,9 @@ export class UserCompanyDetailComponent implements OnInit {
   restaurantForm!: FormGroup;
   userInfo: any;
 
+  selectedValue = null;
   date = null;
+  selectedValueControl = new FormControl(null);
 
   constructor(
     private route: ActivatedRoute,
@@ -87,6 +91,11 @@ export class UserCompanyDetailComponent implements OnInit {
       chairCount: ['', [Validators.required]],
       tableCount: ['', [Validators.required]],
       further: [''],
+    });
+
+    this.selectedValueControl.valueChanges.subscribe(value => {
+      this.selectedValue = value;
+      console.log(this.selectedValue)
     });
   }
 

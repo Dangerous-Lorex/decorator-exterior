@@ -136,6 +136,24 @@
             </nz-form-item>
 
             <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="tableArea" nzRequired
+                >Choose Decorator</nz-form-label
+              >
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceHolder="Select Decorator"
+                  [formControl]="selectedValueControl"
+                >
+                  <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
+                  <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+                  <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
               <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="tableArea"
                 >More</nz-form-label
               >
@@ -144,7 +162,7 @@
                   formControlName="further"
                   nz-input
                   rows="2"
-                  placeholder="write any thing"
+                  placeholder="Write what you need more"
                 ></textarea>
               </nz-form-control>
             </nz-form-item>
@@ -247,11 +265,7 @@
                 [nzXs]="24"
                 nzErrorTip="The input is not valid Chair Count"
               >
-                <input
-                  nz-input
-                  formControlName="chairCount"
-                  id="chairCount"
-                />
+                <input nz-input formControlName="chairCount" id="chairCount" />
               </nz-form-control>
             </nz-form-item>
 

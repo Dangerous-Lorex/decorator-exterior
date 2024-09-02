@@ -1,1 +1,241 @@
-<div>asdasd</div>
+<div class="w-full flex justify-center min-h-[78%] bg-[#f1f5f9]">
+  <div class="container flex items-center flex-col">
+    <h1 class="text-2xl text-center mt-10 mb-5">Appointment</h1>
+    <div class="w-[80%] bg-white rounded-lg bg-background p-10">
+      <nz-tabset nzType="card">
+        <nz-tab nzTitle="Home Owner">
+          <nz-table
+            #homeAppointmentTable
+            [nzData]="homeAppointmentList"
+            nzSize="middle"
+          >
+            <thead>
+              <tr>
+                <th *ngFor="let column of appointmentTableHeader">
+                  {{ column.title }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of homeAppointmentTable.data; let i = index">
+                <td>{{ data.companyName }}</td>
+                <td>{{ data.decoratorName }}</td>
+                <td>{{ data.status }}</td>
+                <td>{{ data.createdAt.split("T")[0] }}</td>
+                <td>{{ data.updatedAt.split("T")[0] }}</td>
+                <td>
+                  <button
+                    nz-button
+                    nzType="link"
+                    class="flex items-center"
+                    (click)="viewSelectedInfo(i, 'home')"
+                  >
+                    <span nz-icon nzType="eye" nzTheme="outline"></span>View
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </nz-tab>
+        <nz-tab nzTitle="Restauranteur">
+          <nz-table
+            #restAppointmentTable
+            [nzData]="restAppointmentList"
+            nzSize="middle"
+          >
+            <thead>
+              <tr>
+                <th *ngFor="let column of appointmentTableHeader">
+                  {{ column.title }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of restAppointmentTable.data; let i = index">
+                <td>{{ data.companyName }}</td>
+                <td>{{ data.decoratorName }}</td>
+                <td>{{ data.status }}</td>
+                <td>{{ data.createdAt.split("T")[0] }}</td>
+                <td>{{ data.updatedAt.split("T")[0] }}</td>
+                <td>
+                  <button
+                    nz-button
+                    nzType="link"
+                    class="flex items-center"
+                    (click)="viewSelectedInfo(i, 'rest')"
+                  >
+                    <span nz-icon nzType="eye" nzTheme="outline"></span>View
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </nz-tab>
+      </nz-tabset>
+    </div>
+  </div>
+  <nz-modal
+    #modal
+    [nzVisible]="isHomeVisible"
+    [nzMaskClosable]="false"
+    [nzTitle]="'Action Appointment'"
+    (nzOnCancel)="isHomeVisible = false"
+    (nzOnOk)="appointmentModalConfirm()"
+  >
+    <ng-container *nzModalContent>
+      <form [formGroup]="homeForm" (ngSubmit)="submitHome()">
+        <h1 class="text-sm mt-3">Company Name:</h1>
+        <h3 class="text-base">{{ currentAppointment.companyName }}</h3>
+        <h1 class="text-sm mt-3">Status:</h1>
+        <h3 class="text-base">{{ currentAppointment.status }}</h3>
+        <h1 class="text-sm mt-3">Created Date:</h1>
+        <h3 class="text-base">
+          {{ currentAppointment.createdAt.split("T")[0] }}
+        </h3>
+        <h1 class="text-sm mt-3">Decorator Name:</h1>
+        <h3 class="text-base">{{ currentAppointment.decoratorName }}</h3>
+
+        <h1 class="text-sm mt-3 mb-1">Work Day:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not valid Date">
+            <nz-date-picker
+              class="w-full"
+              formControlName="arriveDate"
+              id="arriveDate"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">Area Size:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not valid Area size">
+            <input nz-input formControlName="areaSize" id="areaSize" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">Swimming Pool Area:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not Swimming Pool Area size">
+            <input nz-input formControlName="areaSize" id="areaSize" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">Greenery Area:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not valid Greenery size">
+            <input nz-input formControlName="areaSize" id="areaSize" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">Lounger Area:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not valid Lounger size">
+            <input nz-input formControlName="areaSize" id="areaSize" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">Table Area:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not valid Table size">
+            <input nz-input formControlName="areaSize" id="areaSize" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">More:</h1>
+        <nz-form-item>
+          <nz-form-control>
+            <textarea
+              formControlName="further"
+              nz-input
+              rows="2"
+              placeholder="write any thing"
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-container>
+  </nz-modal>
+
+
+  <nz-modal
+    #modal
+    [nzVisible]="isRestVisible"
+    [nzMaskClosable]="false"
+    [nzTitle]="'Action Appointment'"
+    (nzOnCancel)="isRestVisible = false"
+    (nzOnOk)="appointmentModalConfirm()"
+  >
+    <ng-container *nzModalContent>
+      <form [formGroup]="restaurantForm" (ngSubmit)="submitRestaurant()">
+        <h1 class="text-sm mt-3">Company Name:</h1>
+        <h3 class="text-base">{{ currentAppointment.companyName }}</h3>
+        <h1 class="text-sm mt-3">Status:</h1>
+        <h3 class="text-base">{{ currentAppointment.status }}</h3>
+        <h1 class="text-sm mt-3">Created Date:</h1>
+        <h3 class="text-base">
+          {{ currentAppointment.createdAt.split("T")[0] }}
+        </h3>
+        <h1 class="text-sm mt-3">Decorator Name:</h1>
+        <h3 class="text-base">{{ currentAppointment.decoratorName }}</h3>
+
+        <h1 class="text-sm mt-3 mb-1">Work Day:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not valid Date">
+            <nz-date-picker
+              class="w-full"
+              formControlName="arriveDate"
+              id="arriveDate"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">Area Size:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not valid Area size">
+            <input nz-input formControlName="areaSize" id="areaSize" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">Swimming Pool Area:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not Swimming Pool Area size">
+            <input nz-input formControlName="fountainArea" id="fountainArea" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">Greenery Area:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not valid Greenery size">
+            <input nz-input formControlName="greenArea" id="greenArea" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">Lounger Area:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not valid Lounger size">
+            <input nz-input formControlName="chairCount" id="chairCount" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">Table Area:</h1>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="The input is not valid Table size">
+            <input nz-input formControlName="tableCount" id="tableCount" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <h1 class="text-sm mt-3 mb-1">More:</h1>
+        <nz-form-item>
+          <nz-form-control>
+            <textarea
+              formControlName="further"
+              nz-input
+              rows="2"
+              placeholder="write any thing"
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-container>
+  </nz-modal>
+</div>
