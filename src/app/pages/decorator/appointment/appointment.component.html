@@ -21,8 +21,8 @@
                 <td>{{ data.companyName }}</td>
                 <td>{{ data.decoratorName }}</td>
                 <td>{{ data.status }}</td>
-                <td>{{ data.createdAt.split("T")[0] }}</td>
-                <td>{{ data.updatedAt.split("T")[0] }}</td>
+                <td>{{ data.createdAt.split(".")[0] }}</td>
+                <td>{{ data.updatedAt.split(".")[0] }}</td>
                 <td>
                   <button
                     nz-button
@@ -55,8 +55,8 @@
                 <td>{{ data.companyName }}</td>
                 <td>{{ data.decoratorName }}</td>
                 <td>{{ data.status }}</td>
-                <td>{{ data.createdAt.split("T")[0] }}</td>
-                <td>{{ data.updatedAt.split("T")[0] }}</td>
+                <td>{{ data.createdAt.split(".")[0] }}</td>
+                <td>{{ data.updatedAt.split(".")[0] }}</td>
                 <td>
                   <button
                     nz-button
@@ -89,18 +89,18 @@
       <h3 class="text-base">{{ currentAppointment.status }}</h3>
       <h1 class="text-sm mt-3">Created Date:</h1>
       <h3 class="text-base">
-        {{ currentAppointment.createdAt.split("T")[0] }}
+        {{ currentAppointment.createdAt.split(".")[0] }}
       </h3>
       <h1 class="text-sm mt-3">Updated Date:</h1>
       <h3 class="text-base">
-        {{ currentAppointment.updatedAt.split("T")[0] }}
+        {{ currentAppointment.updatedAt.split(".")[0] }}
       </h3>
       <h1 class="text-sm mt-3">Decorator Name:</h1>
       <h3 class="text-base">{{ currentAppointment.decoratorName }}</h3>
 
       <h1 class="text-sm mt-3 mb-1">Work Day:</h1>
       <h3 class="text-base">
-        {{ currentAppointment.workDate.split("T")[0] }}
+        {{ currentAppointment.workDate.split(".")[0] }}
       </h3>
 
       <h1 class="text-sm mt-3 mb-1">Area Size:</h1>
@@ -126,16 +126,26 @@
         nz-button
         nzType="primary"
         nzDanger
-        (click)="appointmentModalDeny('home')"
+        *ngIf="currentAppointment.status == 'Scheduled'"
+        (click)="appointmentModalConfirm('home', 'deny')"
       >
         Deny Appointment
       </button>
       <button
         nz-button
         nzType="primary"
-        (click)="appointmentModalConfirm('home')"
+        *ngIf="currentAppointment.status == 'Scheduled'"
+        (click)="appointmentModalConfirm('home', 'confirm')"
       >
         Accept Appointment
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        *ngIf="currentAppointment.status == 'In Progress'"
+        (click)="appointmentModalConfirm('home', 'complete')"
+      >
+        Complete Appointment
       </button>
     </ng-template>
   </nz-modal>
@@ -155,18 +165,18 @@
       <h3 class="text-base">{{ currentAppointment.status }}</h3>
       <h1 class="text-sm mt-3">Created Date:</h1>
       <h3 class="text-base">
-        {{ currentAppointment.createdAt.split("T")[0] }}
+        {{ currentAppointment.createdAt.split(".")[0] }}
       </h3>
       <h1 class="text-sm mt-3">Updated Date:</h1>
       <h3 class="text-base">
-        {{ currentAppointment.updatedAt.split("T")[0] }}
+        {{ currentAppointment.updatedAt.split(".")[0] }}
       </h3>
       <h1 class="text-sm mt-3">Decorator Name:</h1>
       <h3 class="text-base">{{ currentAppointment.decoratorName }}</h3>
 
       <h1 class="text-sm mt-3 mb-1">Work Day:</h1>
       <h3 class="text-base">
-        {{ currentAppointment.workDate.split("T")[0] }}
+        {{ currentAppointment.workDate.split(".")[0] }}
       </h3>
 
       <h1 class="text-sm mt-3 mb-1">Area Size:</h1>
@@ -192,16 +202,26 @@
         nz-button
         nzType="primary"
         nzDanger
-        (click)="appointmentModalDeny('rest')"
+        *ngIf="currentAppointment.status == 'Scheduled'"
+        (click)="appointmentModalConfirm('rest', 'deny')"
       >
         Deny Appointment
       </button>
       <button
         nz-button
         nzType="primary"
-        (click)="appointmentModalConfirm('rest')"
+        *ngIf="currentAppointment.status == 'Scheduled'"
+        (click)="appointmentModalConfirm('rest', 'confirm')"
       >
         Accept Appointment
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        *ngIf="currentAppointment.status == 'In Progress'"
+        (click)="appointmentModalConfirm('rest', 'complete')"
+      >
+        Complete Appointment
       </button>
     </ng-template>
   </nz-modal>

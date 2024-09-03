@@ -14,6 +14,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NgIf } from '@angular/common';
 
 import {
   AbstractControl,
@@ -59,6 +60,7 @@ interface DataItem {
     NzInputModule,
     ReactiveFormsModule,
     FormsModule,
+    NgIf
   ],
 })
 export class AppointmentComponent implements OnInit {
@@ -118,14 +120,14 @@ export class AppointmentComponent implements OnInit {
 
   submitRestaurant() {}
 
-  appointmentModalConfirm(type: string) {
+  appointmentModalConfirm(type: string, action: string) {
     if (type == 'home') {
       this.userService
         .actionAppointment(
           this.currentAppointment.decoratorId,
           this.currentAppointment._id,
           type,
-          'confirm'
+          action
         )
         .then((data) => {
           if (data.status == 201)
@@ -146,7 +148,7 @@ export class AppointmentComponent implements OnInit {
           this.currentAppointment.decoratorId,
           this.currentAppointment._id,
           type,
-          'confirm'
+          action
         )
         .then((data) => {
           if (data.status == 201)
@@ -164,51 +166,6 @@ export class AppointmentComponent implements OnInit {
     }
   }
 
-  appointmentModalDeny(type: string) {
-    if (type == 'home') {
-      this.userService
-        .actionAppointment(
-          this.currentAppointment.decoratorId,
-          this.currentAppointment._id,
-          type,
-          'deny'
-        )
-        .then((data) => {
-          if (data.status == 201)
-            this.createNotification('Successfully Confirmed', data.message);
-          else this.createNotification('Request Failed', data.message);
-
-          this.userService
-            .getAppointments(this.userInfo.id, 'decorator')
-            .then((data) => {
-              this.homeAppointmentList = data.homeAppointInfo;
-              this.restAppointmentList = data.restAppointInfo;
-            });
-          this.isHomeVisible = false;
-        });
-    } else if (type == 'rest') {
-      this.userService
-        .actionAppointment(
-          this.currentAppointment.decoratorId,
-          this.currentAppointment._id,
-          type,
-          'deny'
-        )
-        .then((data) => {
-          if (data.status == 201)
-            this.createNotification('Successfully Confirmed', data.message);
-          else this.createNotification('Request Failed', data.message);
-
-          this.userService
-            .getAppointments(this.userInfo.id, 'decorator')
-            .then((data) => {
-              this.homeAppointmentList = data.homeAppointInfo;
-              this.restAppointmentList = data.restAppointInfo;
-            });
-          this.isRestVisible = false;
-        });
-    }
-  }
 
   appointmentTableHeader = [
     {
