@@ -146,9 +146,7 @@
                   nzPlaceHolder="Select Decorator"
                   [formControl]="selectedValueControl"
                 >
-                  <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-                  <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-                  <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+                  <nz-option [nzLabel]="item.firstName + ' ' +  item.lastName" [nzValue]="item._id" *ngFor="let item of decoratorList"></nz-option>
                 </nz-select>
               </nz-form-control>
             </nz-form-item>
@@ -283,6 +281,22 @@
                 nzErrorTip="The input is not valid Table Area"
               >
                 <input nz-input formControlName="tableCount" id="tableCount" />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="tableArea" nzRequired
+                >Choose Decorator</nz-form-label
+              >
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceHolder="Select Decorator"
+                  [formControl]="selectedValueControl"
+                >
+                  <nz-option [nzLabel]="item.firstName + ' ' +  item.lastName" [nzValue]="item._id" *ngFor="let item of decoratorList"></nz-option>
+                </nz-select>
               </nz-form-control>
             </nz-form-item>
 

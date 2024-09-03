@@ -13,6 +13,12 @@ export class UserService {
   private getAppointmentsUrl =
     'http://localhost:5000/appointment/get-appointment';
 
+  private getDecoratorListByCompanyUrl =
+    'http://localhost:5000/decorator/get-decoratorList';
+
+  private actionAppointmentUrl =
+    'http://localhost:5000/appointment/action-appointment';
+
   constructor(private http: HttpClient) {}
 
   async addHomeAppointment(appointment: any): Promise<any> {
@@ -28,9 +34,34 @@ export class UserService {
       .toPromise();
   }
 
-  async getAppointments(userId: string | null): Promise<any> {
+  async getAppointments(
+    userId: string | null,
+    type: string | null
+  ): Promise<any> {
     return await this.http
-      .post<any>(this.getAppointmentsUrl, {userId: userId})
+      .post<any>(this.getAppointmentsUrl, { userId: userId, type: type })
+      .toPromise();
+  }
+
+  async getDecoratorList(companyId: string | null): Promise<any> {
+    return await this.http
+      .post<any>(this.getDecoratorListByCompanyUrl, { companyId: companyId })
+      .toPromise();
+  }
+
+  async actionAppointment(
+    decoratorId: string,
+    appointmentId: string,
+    type: string,
+    action: string
+  ): Promise<any> {
+    return await this.http
+      .post<any>(this.actionAppointmentUrl, {
+        decoratorId: decoratorId,
+        appointmentId: appointmentId,
+        type: type,
+        action: action
+      })
       .toPromise();
   }
 }

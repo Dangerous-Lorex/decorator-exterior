@@ -13,6 +13,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 import {
   AbstractControl,
@@ -74,36 +75,20 @@ export class AppointmentComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private notification: NzNotificationService
   ) {}
 
   ngOnInit(): void {
-    this.homeForm = this._formBuilder.group({
-      arriveDate: ['', [Validators.required]],
-      areaSize: ['', [Validators.required]],
-      swimmingArea: ['', [Validators.required]],
-      greenArea: ['', [Validators.required]],
-      loungerArea: ['', [Validators.required]],
-      tableArea: ['', [Validators.required]],
-      further: [''],
-    });
-    this.restaurantForm = this._formBuilder.group({
-      arriveDate: ['', [Validators.required]],
-      areaSize: ['', [Validators.required]],
-      fountainArea: ['', [Validators.required]],
-      greenArea: ['', [Validators.required]],
-      chairCount: ['', [Validators.required]],
-      tableCount: ['', [Validators.required]],
-      further: [''],
-    });
-
     this.authService._userData.subscribe((data) => {
       this.userInfo = data;
     });
-    this.userService.getAppointments(null).then((data) => {
-      this.homeAppointmentList = data.homeAppointInfo;
-      this.restAppointmentList = data.restAppointInfo;
-    });
+    this.userService
+      .getAppointments(this.userInfo.id, 'decorator')
+      .then((data) => {
+        this.homeAppointmentList = data.homeAppointInfo;
+        this.restAppointmentList = data.restAppointInfo;
+      });
   }
 
   viewSelectedInfo(item: number, type: string) {
@@ -112,16 +97,6 @@ export class AppointmentComponent implements OnInit {
         if (index == item) {
           this.currentAppointment = data;
           this.isHomeVisible = true;
-
-          this.homeForm.patchValue({
-            arriveDate: new Date(this.currentAppointment.workDate),
-            areaSize: this.currentAppointment.areaSize,
-            swimmingArea: this.currentAppointment.poolArea,
-            greenArea: this.currentAppointment.greenArea,
-            loungerArea: this.currentAppointment.loungerArea,
-            tableArea: this.currentAppointment.tableArea,
-            further: this.currentAppointment.further,
-          });
         }
       });
     } else if (type == 'rest') {
@@ -129,27 +104,110 @@ export class AppointmentComponent implements OnInit {
         if (index == item) {
           this.currentAppointment = data;
           this.isRestVisible = true;
-
-          this.restaurantForm.patchValue({
-            arriveDate: this.currentAppointment.workDate,
-            areaSize: this.currentAppointment.areaSize,
-            fountainArea: this.currentAppointment.fountainArea,
-            greenArea: this.currentAppointment.greenArea,
-            chairCount: this.currentAppointment.chairCount,
-            tableCount: this.currentAppointment.tableCount,
-            further: this.currentAppointment.further,
-          });
         }
       });
     }
+  }
+
+  createNotification(title: string, content: string): void {
+    this.notification.blank(title, content).onClick.subscribe(() => {
+    });
   }
 
   submitHome() {}
 
   submitRestaurant() {}
 
-  appointmentModalConfirm() {
-    console.log(123123);
+  appointmentModalConfirm(type: string) {
+    if (type == 'home') {
+      this.userService
+        .actionAppointment(
+          this.currentAppointment.decoratorId,
+          this.currentAppointment._id,
+          type,
+          'confirm'
+        )
+        .then((data) => {
+          if (data.status == 201)
+            this.createNotification('Successfully Confirmed', data.message);
+          else this.createNotification('Request Failed', data.message);
+
+          this.userService
+            .getAppointments(this.userInfo.id, 'decorator')
+            .then((data) => {
+              this.homeAppointmentList = data.homeAppointInfo;
+              this.restAppointmentList = data.restAppointInfo;
+            });
+          this.isHomeVisible = false;
+        });
+    } else if (type == 'rest') {
+      this.userService
+        .actionAppointment(
+          this.currentAppointment.decoratorId,
+          this.currentAppointment._id,
+          type,
+          'confirm'
+        )
+        .then((data) => {
+          if (data.status == 201)
+            this.createNotification('Successfully Confirmed', data.message);
+          else this.createNotification('Request Failed', data.message);
+
+          this.userService
+            .getAppointments(this.userInfo.id, 'decorator')
+            .then((data) => {
+              this.homeAppointmentList = data.homeAppointInfo;
+              this.restAppointmentList = data.restAppointInfo;
+            });
+          this.isRestVisible = false;
+        });
+    }
+  }
+
+  appointmentModalDeny(type: string) {
+    if (type == 'home') {
+      this.userService
+        .actionAppointment(
+          this.currentAppointment.decoratorId,
+          this.currentAppointment._id,
+          type,
+          'deny'
+        )
+        .then((data) => {
+          if (data.status == 201)
+            this.createNotification('Successfully Confirmed', data.message);
+          else this.createNotification('Request Failed', data.message);
+
+          this.userService
+            .getAppointments(this.userInfo.id, 'decorator')
+            .then((data) => {
+              this.homeAppointmentList = data.homeAppointInfo;
+              this.restAppointmentList = data.restAppointInfo;
+            });
+          this.isHomeVisible = false;
+        });
+    } else if (type == 'rest') {
+      this.userService
+        .actionAppointment(
+          this.currentAppointment.decoratorId,
+          this.currentAppointment._id,
+          type,
+          'deny'
+        )
+        .then((data) => {
+          if (data.status == 201)
+            this.createNotification('Successfully Confirmed', data.message);
+          else this.createNotification('Request Failed', data.message);
+
+          this.userService
+            .getAppointments(this.userInfo.id, 'decorator')
+            .then((data) => {
+              this.homeAppointmentList = data.homeAppointInfo;
+              this.restAppointmentList = data.restAppointInfo;
+            });
+          this.isRestVisible = false;
+        });
+    }
   }
 
   appointmentTableHeader = [

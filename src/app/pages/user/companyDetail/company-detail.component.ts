@@ -52,6 +52,7 @@ export class UserCompanyDetailComponent implements OnInit {
   selectedValue = null;
   date = null;
   selectedValueControl = new FormControl(null);
+  decoratorList: any
 
   constructor(
     private route: ActivatedRoute,
@@ -69,6 +70,11 @@ export class UserCompanyDetailComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.companyId = params.get('id');
     });
+
+    this.userService.getDecoratorList(this.companyId).then((data) => {
+      this.decoratorList = data
+    })
+
     if (this.companyId != null) {
       this.commonService.getCompany(this.companyId).then((data) => {
         this.companyInfo = data.company;
@@ -126,7 +132,8 @@ export class UserCompanyDetailComponent implements OnInit {
           tableArea,
           further,
           id: this.userInfo.id,
-          companyId: this.companyId
+          companyId: this.companyId,
+          decoratorId: this.selectedValue
         })
         .then((data) => {
           if (data.status == 201) {
@@ -178,7 +185,8 @@ export class UserCompanyDetailComponent implements OnInit {
           tableCount,
           further,
           id: this.userInfo.id,
-          companyId: this.companyId
+          companyId: this.companyId,
+          decoratorId: this.selectedValue
         })
         .then((data) => {
           if (data.status == 201) {

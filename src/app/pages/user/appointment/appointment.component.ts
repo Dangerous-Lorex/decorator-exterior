@@ -99,7 +99,7 @@ export class UserAppointmentComponent implements OnInit {
     this.authService._userData.subscribe((data) => {
       this.userInfo = data;
     });
-    this.userService.getAppointments(this.userInfo.id).then((data) => {
+    this.userService.getAppointments(this.userInfo.id, "user").then((data) => {
       this.homeAppointmentList = data.homeAppointInfo;
       this.restAppointmentList = data.restAppointInfo;
     });
