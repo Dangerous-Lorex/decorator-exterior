@@ -28,7 +28,6 @@ export class UserService {
   }
 
   async addRestAppointment(appointment: any): Promise<any> {
-    console.log(appointment);
     return await this.http
       .post<any>(this.addRestAppointUrl, appointment)
       .toPromise();

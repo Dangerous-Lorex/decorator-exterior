@@ -1,7 +1,7 @@
 <div class="w-full flex justify-center min-h-[78%] bg-[#f1f5f9]">
   <div class="container flex items-center flex-col">
     <h1 class="text-2xl text-center mt-10 mb-5">Appointment</h1>
-    <div class="w-[80%] bg-white rounded-lg bg-background p-10">
+    <div class="w-[90%] bg-white rounded-lg bg-background p-10">
       <nz-tabset nzType="card">
         <nz-tab nzTitle="Home Owner">
           <nz-table
@@ -21,8 +21,8 @@
                 <td>{{ data.companyName }}</td>
                 <td>{{ data.decoratorName }}</td>
                 <td>{{ data.status }}</td>
-                <td>{{ data.createdAt.split("T")[0] }}</td>
-                <td>{{ data.updatedAt.split("T")[0] }}</td>
+                <td>{{ data.createdAt.split(".")[0] }}</td>
+                <td>{{ data.updatedAt.split(".")[0] }}</td>
                 <td>
                   <button
                     nz-button
@@ -55,8 +55,8 @@
                 <td>{{ data.companyName }}</td>
                 <td>{{ data.decoratorName }}</td>
                 <td>{{ data.status }}</td>
-                <td>{{ data.createdAt.split("T")[0] }}</td>
-                <td>{{ data.updatedAt.split("T")[0] }}</td>
+                <td>{{ data.createdAt.split(".")[0] }}</td>
+                <td>{{ data.updatedAt.split(".")[0] }}</td>
                 <td>
                   <button
                     nz-button
@@ -90,7 +90,7 @@
         <h3 class="text-base">{{ currentAppointment.status }}</h3>
         <h1 class="text-sm mt-3">Created Date:</h1>
         <h3 class="text-base">
-          {{ currentAppointment.createdAt.split("T")[0] }}
+          {{ currentAppointment.createdAt.split(".")[0] }}
         </h3>
         <h1 class="text-sm mt-3">Decorator Name:</h1>
         <h3 class="text-base">{{ currentAppointment.decoratorName }}</h3>
@@ -173,7 +173,7 @@
         <h3 class="text-base">{{ currentAppointment.status }}</h3>
         <h1 class="text-sm mt-3">Created Date:</h1>
         <h3 class="text-base">
-          {{ currentAppointment.createdAt.split("T")[0] }}
+          {{ currentAppointment.createdAt.split(".")[0] }}
         </h3>
         <h1 class="text-sm mt-3">Decorator Name:</h1>
         <h3 class="text-base">{{ currentAppointment.decoratorName }}</h3>

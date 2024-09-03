@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../services/user/user.service';
 import { AuthService } from '../../../services/auth/auth.service';
+import { CommonService } from '../../../services/common/common.service';
 
 import { NgFor } from '@angular/common';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -12,14 +12,12 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NgIf } from '@angular/common';
 
 import {
-  AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
-  NonNullableFormBuilder,
-  ValidatorFn,
   Validators,
   FormsModule,
 } from '@angular/forms';
@@ -39,11 +37,12 @@ interface DataItem {
   createdAt: Date;
   updatedAt: Date;
   decoratorName: string;
+  maintenance: string;
 }
 
 @Component({
-  selector: 'app-user-appointment',
-  templateUrl: './appointment.component.html',
+  selector: 'app-user-maintenance',
+  templateUrl: './maintenance.component.html',
   standalone: true,
   imports: [
     NzTableModule,
@@ -57,9 +56,11 @@ interface DataItem {
     NzInputModule,
     ReactiveFormsModule,
     FormsModule,
+    NzToolTipModule,
+    NgIf,
   ],
 })
-export class UserAppointmentComponent implements OnInit {
+export class UserMaintenanceComponent implements OnInit {
   userInfo: any;
   homeAppointmentList: any;
   restAppointmentList: any;
@@ -70,39 +71,48 @@ export class UserAppointmentComponent implements OnInit {
   homeForm!: FormGroup;
   restaurantForm!: FormGroup;
 
+  isConfirmButtonDisabled: boolean = true;
   constructor(
     private authService: AuthService,
-    private userService: UserService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
     this.homeForm = this._formBuilder.group({
-      arriveDate: ['', [Validators.required]],
-      areaSize: ['', [Validators.required]],
-      swimmingArea: ['', [Validators.required]],
-      greenArea: ['', [Validators.required]],
-      loungerArea: ['', [Validators.required]],
-      tableArea: ['', [Validators.required]],
-      further: [''],
+      arriveDate: [{ value: '', disabled: true }, [Validators.required]],
+      areaSize: [{ value: '', disabled: true }, [Validators.required]],
+      swimmingArea: [{ value: '', disabled: true }, [Validators.required]],
+      greenArea: [{ value: '', disabled: true }, [Validators.required]],
+      loungerArea: [{ value: '', disabled: true }, [Validators.required]],
+      tableArea: [{ value: '', disabled: true }, [Validators.required]],
+      further: [{ value: '', disabled: true }],
     });
     this.restaurantForm = this._formBuilder.group({
-      arriveDate: ['', [Validators.required]],
-      areaSize: ['', [Validators.required]],
-      fountainArea: ['', [Validators.required]],
-      greenArea: ['', [Validators.required]],
-      chairCount: ['', [Validators.required]],
-      tableCount: ['', [Validators.required]],
-      further: [''],
+      arriveDate: [{ value: '', disabled: true }, [Validators.required]],
+      areaSize: [{ value: '', disabled: true }, [Validators.required]],
+      fountainArea: [{ value: '', disabled: true }, [Validators.required]],
+      greenArea: [{ value: '', disabled: true }, [Validators.required]],
+      chairCount: [{ value: '', disabled: true }, [Validators.required]],
+      tableCount: [{ value: '', disabled: true }, [Validators.required]],
+      further: [{ value: '', disabled: true }],
     });
 
     this.authService._userData.subscribe((data) => {
       this.userInfo = data;
     });
-    this.userService.getAppointments(this.userInfo.id, "user").then((data) => {
-      this.homeAppointmentList = data.homeAppointInfo;
-      this.restAppointmentList = data.restAppointInfo;
-    });
+    this.commonService
+      .getMaintenanceList(this.userInfo.id, 'user')
+      .then((data) => {
+        this.homeAppointmentList = data.homeAppointInfo;
+        this.restAppointmentList = data.restAppointInfo;
+      });
+  }
+
+  calculateMonthsDifference(startDate: Date, endDate: Date): number {
+    const yearsDifference = endDate.getFullYear() - startDate.getFullYear();
+    const monthsDifference = endDate.getMonth() - startDate.getMonth();
+    return yearsDifference * 12 + monthsDifference;
   }
 
   viewSelectedInfo(item: number, type: string) {
@@ -121,6 +131,14 @@ export class UserAppointmentComponent implements OnInit {
             tableArea: this.currentAppointment.tableArea,
             further: this.currentAppointment.further,
           });
+
+          const updatedAt = new Date(this.currentAppointment.updatedAt);
+          const monthsDifference = this.calculateMonthsDifference(
+            updatedAt,
+            new Date()
+          );
+
+          this.isConfirmButtonDisabled = monthsDifference <= -1;
         }
       });
     } else if (type == 'rest') {
@@ -138,6 +156,13 @@ export class UserAppointmentComponent implements OnInit {
             tableCount: this.currentAppointment.tableCount,
             further: this.currentAppointment.further,
           });
+          const updatedAt = new Date(this.currentAppointment.updatedAt);
+          const monthsDifference = this.calculateMonthsDifference(
+            updatedAt,
+            new Date()
+          );
+
+          this.isConfirmButtonDisabled = monthsDifference <= -1;
         }
       });
     }
@@ -147,7 +172,26 @@ export class UserAppointmentComponent implements OnInit {
 
   submitRestaurant() {}
 
-  appointmentModalConfirm() {
+  appointmentModalConfirm(action: string) {
+    this.commonService
+      .actionMaintenance(
+        this.currentAppointment.id,
+        this.currentAppointment._id,
+        'user',
+        action
+      )
+      .then((data) => {
+        if (data.status == 200) {
+          this.commonService
+            .getMaintenanceList(this.userInfo.id, 'user')
+            .then((data) => {
+              this.homeAppointmentList = data.homeAppointInfo;
+              this.restAppointmentList = data.restAppointInfo;
+            });
+        }
+        this.isHomeVisible = false
+        this.isRestVisible = false
+      });
   }
 
   appointmentTableHeader = [
@@ -164,8 +208,13 @@ export class UserAppointmentComponent implements OnInit {
       priority: false,
     },
     {
-      title: 'Status',
+      title: 'Decorate Status',
       compare: (a: DataItem, b: DataItem) => a.status.localeCompare(b.status),
+      priority: false,
+    },
+    {
+      title: 'Maintenace Status',
+      compare: (a: DataItem, b: DataItem) => a.maintenance.localeCompare(b.maintenance),
       priority: false,
     },
     {

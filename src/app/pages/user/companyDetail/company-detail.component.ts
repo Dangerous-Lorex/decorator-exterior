@@ -101,13 +101,11 @@ export class UserCompanyDetailComponent implements OnInit {
 
     this.selectedValueControl.valueChanges.subscribe(value => {
       this.selectedValue = value;
-      console.log(this.selectedValue)
     });
   }
 
   createNotification(title: string, content: string): void {
     this.notification.blank(title, content).onClick.subscribe(() => {
-      console.log('notification clicked!');
     });
   }
 

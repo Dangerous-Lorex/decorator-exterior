@@ -59,7 +59,6 @@ export class DecoratorProfileComponent implements OnInit {
         (data) => {
           this.userInfo = data;
           this.avatarLink = 'http://localhost:5000' + this.userInfo.avatar;
-          console.log(this.userInfo.role);
           this.profileForm.patchValue({
             firstName: this.userInfo.firstName,
             lastName: this.userInfo.lastName,
@@ -73,7 +72,6 @@ export class DecoratorProfileComponent implements OnInit {
           });
         },
         (error) => {
-          console.log(error);
         }
       );
     }
@@ -132,7 +130,6 @@ export class DecoratorProfileComponent implements OnInit {
 
   handleChange(info: NzUploadChangeParam): void {
     if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
       this.profileService.getUser(this.userName).subscribe(
@@ -141,7 +138,6 @@ export class DecoratorProfileComponent implements OnInit {
           this.avatarLink = 'http://localhost:5000' + this.userInfo.avatar;
         },
         (error) => {
-          console.log(error);
         }
       );
       this.msg.success(`${info.file.name} file uploaded successfully`);
