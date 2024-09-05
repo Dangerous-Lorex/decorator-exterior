@@ -10,6 +10,10 @@ export class CommonService {
     'http://localhost:5000/maintenance/get-maintenance-list';
   private actionMaintenanceUrl =
     'http://localhost:5000/maintenance/action-maintenance';
+  private getCompletedListUrl =
+    'http://localhost:5000/graph/get-completed-list';
+
+  
   constructor(private http: HttpClient) {}
 
   async getCompany(id: string): Promise<any> {
@@ -38,6 +42,12 @@ export class CommonService {
         type: type,
         action: action,
       })
+      .toPromise();
+  }
+
+  async getCompletedList(userId: string): Promise<any> {
+    return await this.http
+      .post<any>(this.getCompletedListUrl, {userId: userId})
       .toPromise();
   }
 }
