@@ -29,7 +29,8 @@ export class StatisticsComponent implements OnInit {
       data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     },
   ];
-  public pieChartSeries: any[] = [1, 10];
+  public pieChartSeries: any[] = [];
+  public pieChartLabels: any[] = [];
 
   appointmentList: any;
 
@@ -76,9 +77,9 @@ export class StatisticsComponent implements OnInit {
         type: 'pie',
       },
       title: {
-        text: 'Appointments Distribution',
+        text: 'Appointments Distribution of This Month',
       },
-      labels: ['Home Appointments', 'Restaurant Appointments'],
+      labels: this.pieChartLabels,
       responsive: [
         {
           breakpoint: 480,
@@ -100,8 +101,8 @@ export class StatisticsComponent implements OnInit {
       this.barChart = new ApexCharts(barChartElement, this.barChartOptions);
       this.pieChart = new ApexCharts(pieChartElement, this.pieChartOptions);
       this.barChart.render();
-      this.pieChart.render()
-    }, 1000);
+      this.pieChart.render();
+    }, 2000);
   }
 
   updateChartData(): void {
@@ -117,7 +118,26 @@ export class StatisticsComponent implements OnInit {
           this.chartSeries[1].data[index]++;
         });
       });
-      
+      this.commonService.getJobList(data.id).then((list) => {
+        let userList = list.userList;
+        let homeList = list.homeAppointInfo;
+        let restList = list.restAppointInfo;
+        userList.map((data: any, index: any) => {
+          this.pieChartSeries[index] = 0;
+          this.pieChartLabels[index] = data.firstName + ' ' + data.lastName;
+          const currentMonth = new Date().getMonth();
+          homeList.map((home: any) => {
+            const updatedMonth = new Date(home.updatedAt).getMonth();
+            if (home.decoratorId == data._id && currentMonth == updatedMonth)
+              this.pieChartSeries[index]++;
+          });
+          restList.map((rest: any) => {
+            const updatedMonth = new Date(rest.updatedAt).getMonth();
+            if (rest.decoratorId == data._id && currentMonth == updatedMonth)
+              this.pieChartSeries[index]++;
+          });
+        });
+      });
     });
   }
 }

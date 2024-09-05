@@ -174,6 +174,12 @@ export class ViewDecoratorComponent implements OnInit {
       password,
       company,
     } = this.registerForm.value;
+    let companyId = ""
+    this.companyList.map((info) => {
+      if(info.name == company) {
+        companyId = info._id
+      }
+    })
     if (
       firstName &&
       lastName &&
@@ -192,6 +198,7 @@ export class ViewDecoratorComponent implements OnInit {
         phoneNumber,
         password,
         company,
+        companyId
       };
       if (requestType == 'register') {
         this.adminService.registerDecorator(userInfo).subscribe((value) => {
@@ -215,6 +222,7 @@ export class ViewDecoratorComponent implements OnInit {
             address,
             phoneNumber,
             company,
+            companyId
           })
           .subscribe((value) => {
             let listRes = this.adminService.getDecoratorList();

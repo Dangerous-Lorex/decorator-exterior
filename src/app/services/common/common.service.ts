@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ export class CommonService {
     'http://localhost:5000/maintenance/action-maintenance';
   private getCompletedListUrl =
     'http://localhost:5000/graph/get-completed-list';
-
+  private getJobListUrl = "http://localhost:5000/graph/get-job-list"
   
   constructor(private http: HttpClient) {}
 
@@ -48,6 +48,14 @@ export class CommonService {
   async getCompletedList(userId: string): Promise<any> {
     return await this.http
       .post<any>(this.getCompletedListUrl, {userId: userId})
+      .toPromise();
+  }
+
+  async getJobList(userId: string): Promise<any> {
+    let params = new HttpParams()
+    .set('userId', userId)
+    return await this.http
+      .get<any>(this.getJobListUrl, {params})
       .toPromise();
   }
 }
