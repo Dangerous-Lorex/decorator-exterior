@@ -17,6 +17,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -42,7 +43,8 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private _formBuilder: FormBuilder,
     private notification: NzNotificationService,
-    private msg: NzMessageService
+    private msg: NzMessageService,
+    private readonly router: Router,
   ) {}
 
   userName: string = '';
@@ -89,12 +91,17 @@ export class ProfileComponent implements OnInit {
       cardNumber: ['', Validators.required],
     });
   }
+  
+  moveTo(link: string) {
+    this.router.navigate([link]);
+  }
 
   createNotification(title: string, content: string): void {
     this.notification.blank(title, content);
   }
 
-  onSubmit() {
+  onSubmit(event: Event) {
+    event.preventDefault();
     const {
       firstName,
       lastName,
@@ -148,4 +155,5 @@ export class ProfileComponent implements OnInit {
       this.msg.error(`${info.file.name} file upload failed.`);
     }
   }
+
 }

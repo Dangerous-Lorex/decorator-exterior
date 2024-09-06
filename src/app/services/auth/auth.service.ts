@@ -16,11 +16,11 @@ interface JwtPayload {
 export class AuthService {
   private loginUrl = 'http://localhost:5000/auth/login';
   private registerUrl = 'http://localhost:5000/auth/register';
+  private changePasswordUrl = 'http://localhost:5000/auth/change-password';
   private tokenKey = 'auth_token';
   public _userData = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   async register(userData: any): Promise<string> {
     return await this.http
@@ -43,7 +43,7 @@ export class AuthService {
         localStorage.setItem(this.tokenKey, response.token);
         // this.loadUserData()
         const decodedToken = jwtDecode<JwtPayload>(response.token);
-        this.setUserData(decodedToken)
+        this.setUserData(decodedToken);
         return decodedToken.role;
       }
     } catch (error) {
@@ -51,20 +51,35 @@ export class AuthService {
     }
   }
 
+  async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string
+  ): Promise<any> {
+    const response = await this.http
+      .post<any>(this.changePasswordUrl, {
+        userId: userId,
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      })
+      .toPromise();
+    return response;
+  }
+
   setUserData(userData: any): void {
-    this._userData.next(userData)
+    this._userData.next(userData);
   }
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
-    this._userData.next(null)
+    this._userData.next(null);
   }
 
   getUserData(): any {
-    const token = localStorage.getItem(this.tokenKey)
-    if(token) {
+    const token = localStorage.getItem(this.tokenKey);
+    if (token) {
       const decodedToken = jwtDecode<JwtPayload>(token);
-      this.setUserData(decodedToken)
+      this.setUserData(decodedToken);
     }
   }
 }

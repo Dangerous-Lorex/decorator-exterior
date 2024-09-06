@@ -11,7 +11,11 @@
           <div
             class="border-4 rounded-full shadow-cyan-500/50 w-[200px] h-[200px] flex justify-center items-center mt-[20px]"
           >
-            <img [src]="avatarLink" alt="avatar" class="w-full h-full  object-cover rounded-full" />
+            <img
+              [src]="avatarLink"
+              alt="avatar"
+              class="w-full h-full object-cover rounded-full"
+            />
           </div>
         </div>
         <nz-upload
@@ -34,7 +38,7 @@
         <form
           class="my-10 space-y-6 w-full"
           [formGroup]="profileForm"
-          (submit)="onSubmit()"
+          (submit)="onSubmit($event)"
         >
           <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">
@@ -166,6 +170,13 @@
             </nz-form-control>
           </nz-form-item>
           <div class="w-full flex justify-end">
+            <div
+              class="h-10 mt-7 rounded-full w-[200px] mr-5 cursor-pointer bg-[#1890ff] flex justify-center items-center text-white"
+              (click)="moveTo('/auth/re-password')"
+              nzDanger
+            >
+              Change Password
+            </div>
             <button
               nz-button
               nzType="primary"
