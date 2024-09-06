@@ -1,20 +1,64 @@
 <div class="min-h-screen w-full">
   <img src="/assets/img/logo.jpg" class="object-cover w-full" alt="logo" />
-  <div class="flex justify-center w-full bg-gray-800	">
-    <div class="container flex justify-center">
-      <div class="w-full text-center	max-w-[790px] flex flex-col py-3">
+  <div class="flex justify-center w-full bg-gray-800">
+    <div class="container flex flex-col items-center">
+      <div class="w-full text-center max-w-[790px] flex flex-col py-3">
         <div class="flex flex-row justify-center items-center mb-2">
-          <img src="/assets/img/house.svg" width="40px" height="30" alt="house" />
+          <img
+            src="/assets/img/house.svg"
+            width="40px"
+            height="30"
+            alt="house"
+          />
           <span class="text-white text-3xl ml-5 mr-2">Imagination</span>
           <span class="text-white">vs Others</span>
         </div>
-        <span class="text-white px-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et
-          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-          nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-          id est laborum.</span>
+        <span class="text-white px-5">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </span>
       </div>
+    </div>
+  </div>
+
+  <div class="w-full flex flex-col items-center bg-[#f1f5f9]">
+    <span class="text-center text-black text-2xl mt-10 mb-10">Companies</span>
+    <div class="container mt-10 mb-10">
+      <nz-table
+        #sortTable
+        [nzData]="listOfData"
+        nzTableLayout="fixed"
+        nzSize="middle"
+      >
+        <thead>
+          <tr>
+            @for (column of listOfColumn; track column) {
+            <th [nzSortFn]="column.compare" [nzSortPriority]="column.priority" rowSpan="1">
+              {{ column.title }}
+            </th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (data of sortTable.data; track data) {
+          <tr>
+            <td>{{ data.companyName }}</td>
+            <td>{{ data.appointmentCount }}</td>
+            <td>{{ data.address }}</td>
+            <!-- <td>{{ data.owners }}</td> -->
+            <td>{{ data.decorators }}</td>
+            <td>{{ data.lastDay }}</td>
+            <td>{{ data.lastWeek }}</td>
+            <td>{{ data.lastMonth }}</td>
+          </tr>
+          }
+        </tbody>
+      </nz-table>
     </div>
   </div>
 </div>

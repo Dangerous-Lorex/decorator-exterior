@@ -12,8 +12,10 @@ export class CommonService {
     'http://localhost:5000/maintenance/action-maintenance';
   private getCompletedListUrl =
     'http://localhost:5000/graph/get-completed-list';
-  private getJobListUrl = "http://localhost:5000/graph/get-job-list"
-  
+  private getJobListUrl = 'http://localhost:5000/graph/get-job-list';
+  private getAppointmentListUrl =
+    'http://localhost:5000/appointment/get-appointment-list';
+
   constructor(private http: HttpClient) {}
 
   async getCompany(id: string): Promise<any> {
@@ -34,7 +36,6 @@ export class CommonService {
     type: string | null,
     action: string
   ): Promise<any> {
-
     return await this.http
       .post<any>(this.actionMaintenanceUrl, {
         userId: id,
@@ -47,15 +48,16 @@ export class CommonService {
 
   async getCompletedList(userId: string): Promise<any> {
     return await this.http
-      .post<any>(this.getCompletedListUrl, {userId: userId})
+      .post<any>(this.getCompletedListUrl, { userId: userId })
       .toPromise();
   }
 
   async getJobList(userId: string): Promise<any> {
-    let params = new HttpParams()
-    .set('userId', userId)
-    return await this.http
-      .get<any>(this.getJobListUrl, {params})
-      .toPromise();
+    let params = new HttpParams().set('userId', userId);
+    return await this.http.get<any>(this.getJobListUrl, { params }).toPromise();
+  }
+
+  async getAppointmentList(): Promise<any> {
+    return await this.http.get<any>(this.getAppointmentListUrl).toPromise();
   }
 }
